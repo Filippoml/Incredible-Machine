@@ -21,7 +21,7 @@ namespace Colliders
 
         public RigidBody(float mass, float width, float height, Vec2 pos, Vec2 vel, float angle ) : base((int)width, (int)height)
         {
-
+            friction = 0.001f;
             this.SetOrigin(width / 2, height / 2);
             this.x = pos.x;
             this.y = pos.y;

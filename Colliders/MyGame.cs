@@ -47,9 +47,9 @@ class MyGame : Game {
         mObjects.Add(floor3);
 
 
-         robot = new Robot(800, 250);
-        robot.SetScaleXY(0.8f);
-        AddChild(robot);
+        // robot = new Robot(800, 250);
+        //robot.SetScaleXY(0.8f);
+        //AddChild(robot);
 
         Inventory inventory = new Inventory();
         AddChild(inventory);

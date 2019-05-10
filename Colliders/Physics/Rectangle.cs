@@ -14,7 +14,8 @@ namespace Colliders
         public Vec2[] localSpacePoints;
         List<Vec2> localSpaceNormals;
         public float invI;
-
+        bool canPlayAnimation;
+        AnimationSprite spriteSpring;
         public Rectangle(float mass, float x, float y, float wid, float hig, float angle) : base(mass, wid, hig, new Vec2(x + wid / 2, y + hig / 2), new Vec2(0, 0), angle)
         {
 
@@ -28,11 +29,11 @@ namespace Colliders
             }
             else if(this is SpringObject)
             {
-                Sprite sprite = new Sprite("test.png");
-                sprite.height = (int)hig;
-                sprite.width = (int)wid;
-                sprite.SetOrigin(-hig /2, -wid /2);
-                AddChild(sprite);
+                spriteSpring = new AnimationSprite("spring.png",5,3);
+                spriteSpring.height = (int)hig;
+                spriteSpring.width = (int)wid;
+                spriteSpring.SetOrigin(hig * 2, wid * 2);
+                AddChild(spriteSpring);
             }
             else if(this is FanObject)
             {
@@ -149,6 +150,22 @@ namespace Colliders
             base.Update();
             generateMotionAABB();
 
+            if (this is SpringObject)
+            {
+                if (canPlayAnimation)
+                {
+                    spriteSpring.NextFrame();
+                    if (spriteSpring.currentFrame >= 14)
+                    {
+                        canPlayAnimation = false;
+                    }
+                }
+            }
+        }
+
+        public void PlayAnimation()
+        {
+            canPlayAnimation = true;
         }
 
         public void generateMotionAABB()

@@ -28,11 +28,11 @@ namespace Colliders
 
         public void Update()
         {
-            if(this.HitTest(((MyGame)game).robot))
-            {
-                ((MyGame)game).hud.graphics.DrawString("LEVEL FINISHED!", font, new SolidBrush(Color.Red), new PointF(900, 100));
-                this.Destroy();
-            }
+            //if(this.HitTest(((MyGame)game).robot))
+            //{
+            //    ((MyGame)game).hud.graphics.DrawString("LEVEL FINISHED!", font, new SolidBrush(Color.Red), new PointF(900, 100));
+            //    this.Destroy();
+            //}
             base.Update();
           
         }

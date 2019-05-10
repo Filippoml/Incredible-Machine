@@ -131,6 +131,7 @@
     <Compile Include="..\GXPEngine\Utils\Utils.cs">
       <Link>GXPEngine\Utils\Utils.cs</Link>
     </Compile>
+    <Compile Include="Objects\ConveyorBeltObject.cs" />
     <Compile Include="Physics\AABB.cs" />
     <Compile Include="Extra\ArduinoInterface.cs" />
     <Compile Include="Physics\Box.cs" />

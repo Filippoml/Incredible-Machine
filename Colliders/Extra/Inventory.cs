@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Colliders.Objects;
 using GXPEngine;
 
 namespace Colliders
@@ -24,9 +25,9 @@ namespace Colliders
             spriteFan.y = 795;
             AddChild(spriteFan);
 
-            //FanObject pistonObject = new FanObject(0.3f, Input.mouseX, Input.mouseY, 50, 50, 0);
-            //AddChild(pistonObject);
-            //((MyGame)game).mObjects.Add(pistonObject);
+            ConveyorBeltObject pistonObject = new ConveyorBeltObject(0, Input.mouseX, Input.mouseY, 1000, 50, 0);
+            AddChild(pistonObject);
+            ((MyGame)game).mObjects.Add(pistonObject);
         }
 
         void Update()

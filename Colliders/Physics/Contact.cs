@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Colliders.Objects;
 
 namespace Colliders
 {
@@ -14,6 +15,7 @@ namespace Colliders
 
         public Contact(Rectangle A, Rectangle B, Vec2 pa, Vec2 pb, Vec2 n, float dist)
         {
+           
             this.A = A;
             this.B = B;
             this.Pa = pa;
@@ -59,14 +61,14 @@ namespace Colliders
 
  
 
-            Vec2 friction = new Vec2(1, 1);
-            if (A is Floor)
+            Vec2 friction = new Vec2(100, 100);
+            if (A is ConveyorBeltObject)
             {
                 Vec2 velocity = B.vel;
                 friction = velocity.multiply(A.friction);
                 B.vel.subtract(friction);
             }
-            else if (B is Floor)
+            else if (B is ConveyorBeltObject)
             {
                 Vec2 velocity = A.vel;
                 friction = velocity.multiply(B.friction);
@@ -80,17 +82,14 @@ namespace Colliders
                 
                 Console.WriteLine(imp.x + " " + imp.y);
 
-
+                A.PlayAnimation();
                 if (B.vel.y > 0)
                 {
                     this.B.vel.subtractMultipledVector(this.B.invMass, new Vec2(0, 1000));
                 }
                 else
                 {
-                    
-
                     this.B.vel.subtractMultipledVector(this.B.invMass, imp);
-
                 }
             }
             else
