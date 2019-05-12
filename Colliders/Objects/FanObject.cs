@@ -39,44 +39,78 @@ namespace Colliders
             }
             else
             {
-                //if(Mathf.Abs(((MyGame)game).box.x) - this.x < 100)
+                if (Mathf.Abs(((MyGame)game).box.x - this.x)< this.width)
+                {
+                    float distance = ((MyGame)game).box.DistanceTo(this);
+                    float number = -9.8f;
+
+                    if (distance < 200)
+                    {
+                        number = 3;
+                    }
+                    else if (distance < 300)
+                    {
+                        number = 2;
+                    }
+                    else if (distance < 400)
+                    {
+                        number = 1;
+                    }
+                    else if (distance < 500)
+                    {
+                        number = 0;
+                    }
+          
+
+
+
+                    ((MyGame)game).box.gravity = -number;
+                    //float distance = ((MyGame)game).box.DistanceTo(this);
+                    //float value = 20000 * 1 / (distance * 20);
+                    //Console.WriteLine(value);
+                    //((MyGame)game).box.vel.y = -value;
+                }
+                else
+                {
+                    ((MyGame)game).box.gravity = 9.8f;
+                }
+
+                //bool isPresent = false;
+                //foreach (GameObject gameObject in game.GetChildren())
                 //{
-                //    float distance = ((MyGame)game).box.DistanceTo(this);
-                //    float value = 20000 * 1 / (distance * 20);
-                //    Console.WriteLine(value); 
-                //    ((MyGame)game).box.vel.y = -value;
+                //    if (gameObject is Wind)
+                //    {
+                //        isPresent = true;
+                //        break;
+                //    }
                 //}
 
-                bool isPresent = false;
-                foreach (GameObject gameObject in game.GetChildren())
-                {
-                    if (gameObject is Wind)
-                    {
-                        isPresent = true;
-                        break;
-                    }
-                }
+
+                //    if (wait >= 40)
+                //    {
+                //        wait = 0;
+                //        float widthFan = this.width / 1.5f;
+                //        Wind rect = new Wind(this, 2f, this.x - widthFan / 2, this.y - this.height - this.height / 2, widthFan,10, 0);
+                //        rect.vel.y = -100;
+                //        ((MyGame)game).AddChild(rect);
+                //        ((MyGame)game).mObjects.Add(rect);
+
+                //        Wind rect2 = new Wind(this, 2f, this.x - widthFan + 4, this.y - this.height * 1.5f + 3, widthFan/2, 10, -0.5f);
+                //         rect2.vel.y = rect.vel.y;
+                //        ((MyGame)game).AddChild(rect2);
+                //        ((MyGame)game).mObjects.Add(rect2);
 
 
-                    if (wait >= 30)
-                    {
-                        wait = 0;
-                        float widthFan = this.width * 2;
-                        Wind rect = new Wind(this, 2f, this.x - widthFan / 2, this.y - this.height - this.height / 2, widthFan,10, 0);
-                        rect.vel.y = -250;
-                        ((MyGame)game).AddChild(rect);
-                        ((MyGame)game).mObjects.Add(rect);
+                //        Wind rect3 = new Wind(this, 2f, this.x +  widthFan /2 - 4, this.y - this.height * 1.5f + 3, widthFan / 2, 10, 0.5f);
+                //         rect3.vel.y = rect.vel.y;
+                //        ((MyGame)game).AddChild(rect3);
+                //        ((MyGame)game).mObjects.Add(rect3);
+                //}
+                //    else
+                //    {
+                //        wait++;
+                //    }
 
-                        Wind rect2 = new Wind(this, 2f, this.x - widthFan * 1.42f + 2, this.y - this.height - 2, widthFan, 10, -0.5f);
-                        rect2.vel.y = -250;
-                        ((MyGame)game).AddChild(rect2);
-                        ((MyGame)game).mObjects.Add(rect2);
-                }
-                    else
-                    {
-                        wait++;
-                    }
-                
                 base.Update();
             }
         }

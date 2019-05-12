@@ -18,7 +18,7 @@ class MyGame : Game {
     public Robot robot;
     public HUD hud;
     Rectangle test;
-    public MyGame() : base(1920,1080,false,true) {
+    public MyGame() : base(1920,1080,true,true) {
 
         //Fan fan = new Fan();
         //fan.x = 100;

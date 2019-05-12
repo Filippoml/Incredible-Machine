@@ -100,11 +100,11 @@ namespace Colliders
 
             }
         }
-
+        public float gravity = 9.8f;
         private void setGravity()
         {
           
-            this.force.y += this.mass * 9.8f;
+            this.force.y += this.mass * gravity;
 
         }
 

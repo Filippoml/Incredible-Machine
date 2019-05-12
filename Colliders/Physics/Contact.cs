@@ -90,17 +90,17 @@ namespace Colliders
                 this.B.vel.subtractMultipledVector(this.B.invMass, imp);
                 this.B.vel.x = 100;
             }
-            else if (A is SpringObject && B is Box)
+            else if (B is SpringObject && A is Box)
             {
           
-                A.PlayAnimation();
-                if (B.vel.y > 0)
+                B.PlayAnimation();
+                if (A.vel.y > 0)
                 {
-                    this.B.vel.subtractMultipledVector(this.B.invMass, new Vec2(0, 1000));
+                    this.A.vel.addMultipledVector(this.A.invMass, new Vec2(0, -1000));
                 }
                 else
                 {
-                    this.B.vel.subtractMultipledVector(this.B.invMass, imp);
+                    this.A.vel.addMultipledVector(this.A.invMass, imp);
                 }
             }
             //else if (B is Wind && A is Box)
