@@ -18,6 +18,8 @@ class MyGame : Game {
     public Robot robot;
     public HUD hud;
     Rectangle test;
+    Sprite arrow;
+    float animCounter;
     public MyGame() : base(1920,1080,true,true) {
 
         //Fan fan = new Fan();
@@ -59,7 +61,11 @@ class MyGame : Game {
 
         hud = new HUD();
         AddChild(hud);
-        
+
+        arrow = new Sprite("arrow.png");
+        arrow.SetXY(200, 300);
+        AddChild(arrow);
+
 
         foreach (Rectangle rectangle in mObjects)
         {
@@ -87,8 +93,10 @@ class MyGame : Game {
         //    test.x++;
         //    test.pos.x++;
         //}
+        animCounter += 0.1f;
+        arrow.y =  300 + 20 * Mathf.Sin(animCounter / 2);
 
-            if (Input.GetKeyDown(Key.ESCAPE))
+        if (Input.GetKeyDown(Key.ESCAPE))
         {
             GL.glfwCloseWindow();
             GL.glfwTerminate();

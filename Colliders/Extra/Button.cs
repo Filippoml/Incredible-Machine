@@ -15,16 +15,6 @@ namespace Colliders
             this.y = y;
         }
 
-        void Update()
-        {
-            if(DistanceTo(Input.mouseX, Input.mouseY) < this.width && Input.GetMouseButtonDown(0))
-            {
-                ((MyGame)game).ResetGame();
-                ((MyGame)game).time = 1f / 50f;
-                ((MyGame)game).paused = false;
-            }
 
-            
-        }
     }
 }

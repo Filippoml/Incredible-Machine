@@ -11,7 +11,6 @@ namespace Colliders
 {
     public class FanObject : Rectangle
     {
-        private bool placing = true;
         float xCoord, yCoord;
 
         public FanObject(float mass, float x, float y, float wid, float hig, float angle, bool placing) : base(mass, x, y, wid, hig, angle, placing)
@@ -23,7 +22,7 @@ namespace Colliders
         void Update()
         {
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && canBePlaced)
             {
                 placing = false;
                 xCoord = x;
@@ -44,31 +43,20 @@ namespace Colliders
                     float distance = ((MyGame)game).box.DistanceTo(this);
                     float number = -9.8f;
 
+
                     if (distance < 200)
                     {
-                        number = 6;
+                        number = 15;
                     }
                     else if (distance < 300)
                     {
-                        number = 6;
+                        number = 10;
                     }
                     else if (distance < 400)
                     {
-                        number = 6;
+                        number = 2;
                     }
-                    else if (distance < 500)
-                    {
-                        number = 4;
-                    }
-                    else if (distance < 600)
-                    {
-                        number = 4;
-                    }
-                    else if (distance < 700)
-                    {
-                        number = 4;
-                    }
-
+  
 
 
 

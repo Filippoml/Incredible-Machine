@@ -9,8 +9,6 @@ namespace Colliders.Objects
 {
     public class ConveyorBeltObject : Rectangle
     {
-
-        private bool placing = true;
         float xCoord, yCoord;
 
         public ConveyorBeltObject(float mass, float x, float y, float wid, float hig, float angle, bool placing) : base(mass, x, y, wid, hig, angle, placing)
@@ -22,7 +20,7 @@ namespace Colliders.Objects
         void Update()
         {
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && canBePlaced)
             {
                 placing = false;
                 xCoord = x;

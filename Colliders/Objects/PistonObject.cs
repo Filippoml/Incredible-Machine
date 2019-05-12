@@ -82,7 +82,7 @@ namespace Colliders
 
             }
 
-           
+
             if (Input.GetMouseButtonDown(0) && canBePlaced)
             {
         
@@ -108,7 +108,6 @@ namespace Colliders
             {
                 if (((MyGame)game).box.x  > this.x + this.width + 13 && ((MyGame)game).box.x - this.x < 100 && Mathf.Abs(((MyGame)game).box.y - this.y) < this.height)
                 {
-
                     pistonAnimation = true;
                 }
                 base.Update();
@@ -119,6 +118,16 @@ namespace Colliders
             test.y = test.pos.y = this.y;
             test2.y = test2.pos.y = this.y;
   
+        }
+
+        public void DestroyChildren()
+        {
+            var gameVar = ((MyGame)game);
+            gameVar.mObjects.Remove(test);
+            test.Destroy();
+
+            gameVar.mObjects.Remove(test2);
+            test2.Destroy();
         }
     }
 }

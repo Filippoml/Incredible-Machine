@@ -13,10 +13,5 @@ namespace Colliders.Objects
 
 
         }
-
-        void Update()
-        {
-            Console.WriteLine( "ef");
-        }
     }
 }
