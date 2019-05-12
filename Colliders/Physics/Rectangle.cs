@@ -48,11 +48,16 @@ namespace Colliders
             else if(this is ConveyorBeltObject)
             {
                 spriteBelt = new AnimationSprite("belt.png", 4, 12);
+             
                 spriteBelt.height = (int)hig;
                 spriteBelt.width = (int)wid;
-
+                spriteBelt.SetOrigin(wid, hig);
                 AddChild(spriteBelt);
             }
+            //else if (this is Wind)
+            //{
+
+            //}
             else
             {
                 Fill(100, 100, 100);
@@ -319,6 +324,11 @@ namespace Colliders
             return support;
         }
 
+        public void Remove()
+        {
 
+            ((MyGame)game).mObjects.Remove(this);
+            this.Destroy();
+        }
     }
 }

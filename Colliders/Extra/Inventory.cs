@@ -25,7 +25,7 @@ namespace Colliders
             spriteFan.y = 795;
             AddChild(spriteFan);
 
-            ConveyorBeltObject pistonObject = new ConveyorBeltObject(0, Input.mouseX, Input.mouseY, 460, 90, 0);
+            FanObject pistonObject = new FanObject(1, Input.mouseX, Input.mouseY, 50, 50, 0);
             AddChild(pistonObject);
             ((MyGame)game).mObjects.Add(pistonObject);
         }

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Colliders.Objects;
+using GXPEngine;
+
 
 namespace Colliders
 {
@@ -61,25 +63,32 @@ namespace Colliders
 
 
 
-            Vec2 friction = new Vec2(100, 100);
-            if (A is ConveyorBeltObject)
-            {
-                Vec2 velocity = B.vel;
-                friction = velocity.multiply(A.friction);
-                B.vel.subtract(friction);
-            }
-            else if (B is ConveyorBeltObject)
-            {
-                Vec2 velocity = A.vel;
-                friction = velocity.multiply(B.friction);
-                A.vel.subtract(friction);
-            }
+            //Vec2 friction = new Vec2(100, 100);
+            //if (A is ConveyorBeltObject)
+            //{
+            //    Vec2 velocity = B.vel;
+            //    friction = velocity.multiply(A.friction);
+            //    B.vel.subtract(friction);
+            //}
+            //else if (B is ConveyorBeltObject)
+            //{
+            //    Vec2 velocity = A.vel;
+            //    friction = velocity.multiply(B.friction);
+            //    A.vel.subtract(friction);
+            //}
 
 
             if (B is Box && A is PistonObject)
             {
                 this.B.vel.subtractMultipledVector(this.B.invMass, imp);
 
+            }
+            else if (B is Box && A is ConveyorBeltObject)
+            {
+      
+
+                this.B.vel.subtractMultipledVector(this.B.invMass, imp);
+                this.B.vel.x = 100;
             }
             else if (A is SpringObject && B is Box)
             {
@@ -94,22 +103,64 @@ namespace Colliders
                     this.B.vel.subtractMultipledVector(this.B.invMass, imp);
                 }
             }
+            //else if (B is Wind && A is Box)
+            //{
+            //    this.A.vel.addMultipledVector(this.A.invMass, imp);
+
+            //}
+            else if(B is Wind && A is Floor)
+            {
+                B.Remove();
+            }
+            else if(A is Wind && B is Wind)
+            {
+
+            }
             else
             {
-                this.A.vel.addMultipledVector(this.A.invMass, imp);
+                 if (B is Wind && A is Box)
+                {
+                    if(A.y < B.y)
+                    {
+                        this.A.vel.addMultipledVector(this.A.invMass, imp);
 
-                this.B.vel.subtractMultipledVector(this.B.invMass, imp);
+                        this.B.vel.subtractMultipledVector(this.B.invMass, imp);
+                    }
+                    else
+                    {
+            
+                    }
+            
+
+                }
+
+                else
+                {
+                    this.A.vel.addMultipledVector(this.A.invMass, imp);
+
+                    this.B.vel.subtractMultipledVector(this.B.invMass, imp);
+                }
+
 
 
 
             }
 
-            float a = imp.dotProduct(this.ra) * this.A.invI;
-            float b = imp.dotProduct(this.rb) * this.B.invI;
+    
 
-            this.A.angularVel += a;
-            this.B.angularVel -= b;
+            //if (A is Wind && B is Box)
+            //{
+            //    A.Remove(); 
+            //}
+            if (A is Floor && B is Box || B is Floor && A is Box)
+            {
+                float a = imp.dotProduct(this.ra) * this.A.invI;
+                float b = imp.dotProduct(this.rb) * this.B.invI;
 
+                this.A.angularVel += a;
+                this.B.angularVel -= b;
+
+            }
             //Console.WriteLine(A+ "  " + B);
 
         }

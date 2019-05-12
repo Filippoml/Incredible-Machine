@@ -133,6 +133,7 @@
     </Compile>
     <Compile Include="Objects\ConveyorBeltObject.cs" />
     <Compile Include="Objects\SubPiston.cs" />
+    <Compile Include="Objects\Wind.cs" />
     <Compile Include="Physics\AABB.cs" />
     <Compile Include="Extra\ArduinoInterface.cs" />
     <Compile Include="Physics\Box.cs" />

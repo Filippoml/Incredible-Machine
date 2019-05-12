@@ -37,7 +37,7 @@ class MyGame : Game {
         mObjects = new List<Rectangle>();
 
 
-        Floor floor1 = new Floor(100, 200, 500, 15, "", 0);
+        Floor floor1 = new Floor(100, 200, 100, 15, "", 0.1f);
         mObjects.Add(floor1);
 
 
@@ -75,8 +75,8 @@ class MyGame : Game {
     public Box box;
     private void add()
     {
-        box = new Box(1, 400, 122, 50, 50,0);
-        box.vel.x = -100;
+        box = new Box(1, 100, 122, 50, 50,0);
+
         AddChild(box);
         mObjects.Add(box);
     }

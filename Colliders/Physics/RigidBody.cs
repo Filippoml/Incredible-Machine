@@ -22,7 +22,7 @@ namespace Colliders
 
         public RigidBody(float mass, float width, float height, Vec2 pos, Vec2 vel, float angle ) : base((int)width, (int)height)
         {
-            friction = 0.001f;
+            //friction = 0.001f;
             this.SetOrigin(width / 2, height / 2);
             this.x = pos.x;
             this.y = pos.y;
@@ -57,7 +57,7 @@ namespace Colliders
             {
                 dt = 0;
             }
-            if (dt != 0 || this.parent is PistonObject)
+            if ((dt != 0 || this.parent is PistonObject) && !(this is Wind))
             {
                 setGravity();
             }
@@ -141,5 +141,7 @@ namespace Colliders
 
             }
         }
+
+
     }
 }
