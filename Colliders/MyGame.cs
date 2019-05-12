@@ -134,6 +134,10 @@ class MyGame : Game {
 
     public Contact[] collide()
     {
+        foreach(Rectangle rect in mObjects)
+        {
+            rect.canBePlaced = true;
+        }
 
         List<Contact> contacts2 = new List<Contact>();
 
@@ -144,11 +148,19 @@ class MyGame : Game {
             for (var jj = ii + 1; jj < mObjects.Count; jj++)
             {
                 Rectangle rigidBodyB = mObjects[jj];
-
+                Rectangle objectinPlacing = null;
+                if (rigidBodyA.placing)
+                {
+                    objectinPlacing = rigidBodyA;
+                }
+                else if (rigidBodyB.placing)
+                {
+                    objectinPlacing = rigidBodyB;
+                }
 
                 if (rigidBodyA is SubPiston && rigidBodyB is Box || rigidBodyB is SubPiston && rigidBodyA is Box)
                 {
-                    Console.WriteLine("test");
+
                 }
                 else
                 {
@@ -177,8 +189,17 @@ class MyGame : Game {
 
                     var aabb = new AABB();
 
+           
+
                     if (aabb.overlap(rigidBodyA.motionBounds, rigidBodyB.motionBounds))
                     {
+                        if (paused)
+                        {
+                            if (objectinPlacing != null)
+                            {
+                                objectinPlacing.canBePlaced = false;                           
+                            }
+                        }
 
                         if (rigidBodyA is SubPiston && rigidBodyB is Box || rigidBodyB is SubPiston && rigidBodyA is Box)
                         {
@@ -188,16 +209,19 @@ class MyGame : Game {
                             }
                         }
 
-                        Geometry geometry = new Geometry();
+
+                            Geometry geometry = new Geometry();
 
 
-                        Contact[] _contacts =  geometry.rectRectClosestPoints(rigidBodyA, rigidBodyB);
+                            Contact[] _contacts = geometry.rectRectClosestPoints(rigidBodyA, rigidBodyB);
 
 
 
-                        contacts2 = contacts2.Union(_contacts.ToArray()).ToList();
-                        colliding = true;
+                            contacts2 = contacts2.Union(_contacts.ToArray()).ToList();
+                            colliding = true;
+                        
                     }
+
 
                 }
             }

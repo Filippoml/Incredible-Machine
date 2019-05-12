@@ -9,7 +9,7 @@ namespace Colliders.Objects
     public class Wind : Rectangle
     {
         FanObject fakeParent;
-        public Wind(FanObject fakeparent, float mass, float x, float y, float wid, float hig, float angle) : base(mass, x, y, wid, hig, angle)
+        public Wind(FanObject fakeparent, float mass, float x, float y, float wid, float hig, float angle) : base(mass, x, y, wid, hig, angle, false)
         {
             this.fakeParent = fakeparent;
 

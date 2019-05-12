@@ -11,7 +11,7 @@ namespace Colliders
     {
         float time;
 
-        public Floor(float x, float y, float wid, float hig, string name, float angle) : base(0, x, y, wid, hig, angle)
+        public Floor(float x, float y, float wid, float hig, string name, float angle) : base(0, x, y, wid, hig, angle, false)
         {
             this.time = 0;
             this.names = name;

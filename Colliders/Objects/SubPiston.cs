@@ -8,10 +8,15 @@ namespace Colliders.Objects
 {
     public class SubPiston : Rectangle
     {
-        public SubPiston(float mass, float x, float y, float wid, float hig, float angle) : base(mass, x, y, wid, hig, angle)
+        public SubPiston(float mass, float x, float y, float wid, float hig, float angle) : base(mass, x, y, wid, hig, angle, false)
         {
 
 
+        }
+
+        void Update()
+        {
+            Console.WriteLine( "ef");
         }
     }
 }

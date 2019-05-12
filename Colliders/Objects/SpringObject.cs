@@ -9,19 +9,19 @@ namespace Colliders
 {
     public class SpringObject : Rectangle
     {
-        private bool placing = true;
+       
         float xCoord, yCoord;
 
-        public SpringObject(float mass, float x, float y, float wid, float hig, float angle) : base(mass, x, y, wid, hig, angle)
+        public SpringObject(float mass, float x, float y, float wid, float hig, float angle, bool placing) : base(mass, x, y, wid, hig, angle, placing)
         {
 
-            
+          
         }
 
         void Update()
         {
-
-            if (Input.GetMouseButtonDown(0))
+            Console.WriteLine(canBePlaced);
+            if (Input.GetMouseButtonDown(0) && canBePlaced)
             {
                 placing = false;
                 xCoord = x;
@@ -33,7 +33,7 @@ namespace Colliders
                 this.y = Input.mouseY;
                 base.pos.x = Input.mouseX;
                 base.pos.y = Input.mouseY;
-
+                UpdateRectangleSize();
             }
             else
             {

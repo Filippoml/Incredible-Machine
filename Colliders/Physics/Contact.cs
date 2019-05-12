@@ -9,7 +9,7 @@ using GXPEngine;
 
 namespace Colliders
 {
-    public class Contact
+    public class Contact : GameObject
     {
         public Rectangle A, B;
         public Vec2 Pa, Pb, normal, ra, rb;
@@ -78,91 +78,90 @@ namespace Colliders
             //}
 
 
-            if (B is Box && A is PistonObject)
+            if (A.vel.y != 0 || B.vel.y != 0)
             {
-                this.B.vel.subtractMultipledVector(this.B.invMass, imp);
 
-            }
-            else if (B is Box && A is ConveyorBeltObject)
-            {
-      
-
-                this.B.vel.subtractMultipledVector(this.B.invMass, imp);
-                this.B.vel.x = 100;
-            }
-            else if (B is SpringObject && A is Box)
-            {
-          
-                B.PlayAnimation();
-                if (A.vel.y > 0)
+                if (B is Box && A is PistonObject)
                 {
-                    this.A.vel.addMultipledVector(this.A.invMass, new Vec2(0, -1000));
+                    this.B.vel.subtractMultipledVector(this.B.invMass, imp);
+
                 }
-                else
+                else if (B is Box && A is ConveyorBeltObject)
+                {
+
+
+                    this.B.vel.subtractMultipledVector(this.B.invMass, imp);
+                    this.B.vel.x = 100;
+                }
+
+                else if (A is FanObject && B is Box)
+                {
+                    this.B.vel.subtractMultipledVector(this.B.invMass, imp);
+                }
+                else if (A is Box && B is FanObject)
                 {
                     this.A.vel.addMultipledVector(this.A.invMass, imp);
                 }
-            }
-            //else if (B is Wind && A is Box)
-            //{
-            //    this.A.vel.addMultipledVector(this.A.invMass, imp);
-
-            //}
-            else if(B is Wind && A is Floor)
-            {
-                B.Remove();
-            }
-            else if(A is Wind && B is Wind)
-            {
-
-            }
-            else
-            {
-                 if (B is Wind && A is Box)
+                else if (B is SpringObject && A is Box)
                 {
-                    if(A.y < B.y)
-                    {
-                        this.A.vel.addMultipledVector(this.A.invMass, imp);
 
-                        this.B.vel.subtractMultipledVector(this.B.invMass, imp);
+
+                    if (A.vel.y > 0 && A.y < B.y - B.height)
+                    {
+                        B.PlayAnimation();
+                        this.A.vel.addMultipledVector(this.A.invMass, new Vec2(0, -1000));
                     }
                     else
                     {
-            
+                        this.A.vel.addMultipledVector(this.A.invMass, imp);
                     }
-            
-
                 }
+               
+                else if (A is SpringObject && B is Box)
+                {
 
+
+                    if (B.vel.y > 0 && B.y < A.y - A.height)
+                    {
+                        A.PlayAnimation();
+                        this.B.vel.subtractMultipledVector(this.B.invMass, new Vec2(0, 1000));
+                    }
+                    else
+                    {
+                        this.B.vel.subtractMultipledVector(this.B.invMass, imp);
+                    }
+                }
                 else
                 {
-                    this.A.vel.addMultipledVector(this.A.invMass, imp);
+                   
+                    
+                        this.A.vel.addMultipledVector(this.A.invMass, imp);
 
-                    this.B.vel.subtractMultipledVector(this.B.invMass, imp);
+                        this.B.vel.subtractMultipledVector(this.B.invMass, imp);
+                    
+
+
+
+
                 }
 
 
 
+                //if (A is Wind && B is Box)
+                //{
+                //    A.Remove(); 
+                //}
+                if (A is Floor && B is Box || B is Floor && A is Box)
+                {
+                    float a = imp.dotProduct(this.ra) * this.A.invI;
+                    float b = imp.dotProduct(this.rb) * this.B.invI;
 
+                    this.A.angularVel += a;
+                    this.B.angularVel -= b;
+
+                }
+                //Console.WriteLine(A+ "  " + B);
             }
-
-    
-
-            //if (A is Wind && B is Box)
-            //{
-            //    A.Remove(); 
-            //}
-            if (A is Floor && B is Box || B is Floor && A is Box)
-            {
-                float a = imp.dotProduct(this.ra) * this.A.invI;
-                float b = imp.dotProduct(this.rb) * this.B.invI;
-
-                this.A.angularVel += a;
-                this.B.angularVel -= b;
-
-            }
-            //Console.WriteLine(A+ "  " + B);
-
         }
     }
 }

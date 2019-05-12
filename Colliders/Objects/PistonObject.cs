@@ -11,12 +11,13 @@ namespace Colliders
     public class PistonObject : Rectangle
     {
         int maxXinit, maxXfin = 5;
-        private bool placing = true, pistonAnimation;
+
+        private bool pistonAnimation;
         float xCoord, yCoord;
         EasyDraw easyDraw;
         int numWidth;
         SubPiston test, test2;
-        public PistonObject(float mass, float x, float y, float wid, float hig, float angle) : base(mass, x, y, wid, hig, angle)
+        public PistonObject(float mass, float x, float y, float wid, float hig, float angle, bool placing) : base(mass, x, y, wid, hig, angle, placing)
         {
 
             numWidth = (int) this.width;
@@ -82,7 +83,7 @@ namespace Colliders
             }
 
            
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && canBePlaced)
             {
         
                 placing = false;
@@ -105,17 +106,19 @@ namespace Colliders
             }
             else
             {
-                if (((MyGame)game).box.x > this.x && ((MyGame)game).box.x - this.x < 100)
+                if (((MyGame)game).box.x  > this.x + this.width + 13 && ((MyGame)game).box.x - this.x < 100 && Mathf.Abs(((MyGame)game).box.y - this.y) < this.height)
                 {
 
                     pistonAnimation = true;
                 }
                 base.Update();
+                test.UpdateRectangleSize();
+                test2.UpdateRectangleSize();
+
             }
             test.y = test.pos.y = this.y;
             test2.y = test2.pos.y = this.y;
-            test.UpdateRectangleSize();
-            test2.UpdateRectangleSize();
+  
         }
     }
 }

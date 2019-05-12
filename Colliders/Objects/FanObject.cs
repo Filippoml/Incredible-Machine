@@ -14,7 +14,7 @@ namespace Colliders
         private bool placing = true;
         float xCoord, yCoord;
 
-        public FanObject(float mass, float x, float y, float wid, float hig, float angle) : base(mass, x, y, wid, hig, angle)
+        public FanObject(float mass, float x, float y, float wid, float hig, float angle, bool placing) : base(mass, x, y, wid, hig, angle, placing)
         {
 
         }
@@ -46,21 +46,29 @@ namespace Colliders
 
                     if (distance < 200)
                     {
-                        number = 3;
+                        number = 6;
                     }
                     else if (distance < 300)
                     {
-                        number = 2;
+                        number = 6;
                     }
                     else if (distance < 400)
                     {
-                        number = 1;
+                        number = 6;
                     }
                     else if (distance < 500)
                     {
-                        number = 0;
+                        number = 4;
                     }
-          
+                    else if (distance < 600)
+                    {
+                        number = 4;
+                    }
+                    else if (distance < 700)
+                    {
+                        number = 4;
+                    }
+
 
 
 

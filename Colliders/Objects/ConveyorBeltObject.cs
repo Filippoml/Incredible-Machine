@@ -13,7 +13,7 @@ namespace Colliders.Objects
         private bool placing = true;
         float xCoord, yCoord;
 
-        public ConveyorBeltObject(float mass, float x, float y, float wid, float hig, float angle) : base(mass, x, y, wid, hig, angle)
+        public ConveyorBeltObject(float mass, float x, float y, float wid, float hig, float angle, bool placing) : base(mass, x, y, wid, hig, angle, placing)
         {
 
         }

@@ -14,7 +14,7 @@ namespace Colliders
         Font _font;
 
         float halfWidth, halfHeight;
-        public Box(float mass, float x, float y, float wid, float hig, float angle):base(mass,x,y,wid,hig,angle)
+        public Box(float mass, float x, float y, float wid, float hig, float angle):base(mass,x,y,wid,hig,angle, false)
         {
             this.width = wid;
             this.height = hig;

@@ -10,6 +10,7 @@ namespace Colliders
 {
     public class Rectangle : RigidBody
     {
+        public bool placing , canBePlaced;
         public string names;
         Vec2 halfExtents, halfExtentsMinus;
         public Vec2[] localSpacePoints;
@@ -17,9 +18,9 @@ namespace Colliders
         public float invI;
         bool canPlayAnimation;
         AnimationSprite spriteSpring, spriteBelt;
-        public Rectangle(float mass, float x, float y, float wid, float hig, float angle) : base(mass, wid, hig, new Vec2(x + wid / 2, y + hig / 2), new Vec2(0, 0), angle)
+        public Rectangle(float mass, float x, float y, float wid, float hig, float angle, bool placing) : base(mass, wid, hig, new Vec2(x + wid / 2, y + hig / 2), new Vec2(0, 0), angle)
         {
-
+            this.placing = placing;
             if(this is Box)
             {
                 Sprite sprite = new Sprite("bomb.png");
@@ -34,6 +35,7 @@ namespace Colliders
                 spriteSpring.height = (int)hig;
                 spriteSpring.width = (int)wid;
                 spriteSpring.SetOrigin(hig * 2, wid * 2);
+        
                 AddChild(spriteSpring);
             }
             else if(this is FanObject)
@@ -140,39 +142,43 @@ namespace Colliders
 
         public void Update()
         {
-            //if (this.pos.y > game.height + Math.Sqrt(this.width * this.width + this.height * this.height) * 2)
-            //{
-            //    this.Destroy();
-            //    ((MyGame)game).mObjects.Remove(this);
-            //}
 
-            if(spriteBelt != null)
-            {
-                if(spriteBelt.currentFrame >= 44)
-                {
-                    spriteBelt.SetFrame(0);
-                }
-                else
-                {
-                    spriteBelt.NextFrame();
-                }
-               
-            }
-           
-            base.Update();
-            generateMotionAABB();
 
-            if (this is SpringObject)
-            {
-                if (canPlayAnimation)
+
+                //if (this.pos.y > game.height + Math.Sqrt(this.width * this.width + this.height * this.height) * 2)
+                //{
+                //    this.Destroy();
+                //    ((MyGame)game).mObjects.Remove(this);
+                //}
+
+                if (spriteBelt != null)
                 {
-                    spriteSpring.NextFrame();
-                    if (spriteSpring.currentFrame >= 14)
+                    if (spriteBelt.currentFrame >= 44)
                     {
-                        canPlayAnimation = false;
+                        spriteBelt.SetFrame(0);
+                    }
+                    else
+                    {
+                        spriteBelt.NextFrame();
+                    }
+
+                }
+
+                base.Update();
+                generateMotionAABB();
+
+                if (this is SpringObject)
+                {
+                    if (canPlayAnimation)
+                    {
+                        spriteSpring.NextFrame();
+                        if (spriteSpring.currentFrame >= 14)
+                        {
+                            canPlayAnimation = false;
+                        }
                     }
                 }
-            }
+            
         }
 
         public void PlayAnimation()
