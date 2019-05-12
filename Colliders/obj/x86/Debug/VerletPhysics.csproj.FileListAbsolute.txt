@@ -1,0 +1,6 @@
+C:\Users\Filippo\Desktop\box-box-box\VerletPhysics\Colliders\obj\x86\Debug\VerletPhysics.csprojAssemblyReference.cache
+C:\Users\Filippo\Desktop\box-box-box\VerletPhysics\Colliders\obj\x86\Debug\VerletPhysics.csproj.CoreCompileInputs.cache
+C:\Users\Filippo\Desktop\box-box-box\VerletPhysics\Colliders\bin\Debug\Colliders.exe
+C:\Users\Filippo\Desktop\box-box-box\VerletPhysics\Colliders\bin\Debug\Colliders.pdb
+C:\Users\Filippo\Desktop\box-box-box\VerletPhysics\Colliders\obj\x86\Debug\Colliders.exe
+C:\Users\Filippo\Desktop\box-box-box\VerletPhysics\Colliders\obj\x86\Debug\Colliders.pdb
