@@ -13,7 +13,7 @@ namespace Colliders
         Button deleteButton, playButton;
         Rectangle objectPlacing;
         MyGame gameVar;
-        bool oneObjectPlacing;
+        public bool oneObjectPlacing;
         public HUD() : base(MyGame.main.width, MyGame.main.height)
         {
             gameVar = ((MyGame)game);

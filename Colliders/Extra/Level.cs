@@ -29,8 +29,9 @@ namespace Colliders.Extra
         public float arrowY;
         public Sprite arrow;
         float animCounter;
+
+        Floor floatingFloor1, floatingFloor2;
         public List <Rectangle> mObjects;
-        private bool paused;
         MyGame gameVar;
         public Level()
         {
@@ -38,7 +39,6 @@ namespace Colliders.Extra
 
             mObjects = new List<Rectangle>();
 
-            paused = gameVar.paused;
 
            
         }
@@ -59,8 +59,10 @@ namespace Colliders.Extra
                     LoadLevel2();
                     break;
                 case 3:
+                    LoadLevel3();
                     break;
                 case 4:
+                    LoadLevel4();
                     break;
             }
         }
@@ -166,6 +168,88 @@ namespace Colliders.Extra
         }
 
 
+        void LoadLevel3()
+        {
+            System.Drawing.Bitmap Bmp = new System.Drawing.Bitmap(game.width, game.height);
+            System.Drawing.Graphics gfx = System.Drawing.Graphics.FromImage(Bmp);
+            System.Drawing.SolidBrush brush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(135, 206, 235));
+            gfx.FillRectangle(brush, 0, 0, game.width, game.height);
+            Sprite _background = new Sprite(Bmp);
+            AddChild(_background);
+
+            Floor floor1 = new Floor(900, 50, 15, 300, "", 0);
+            mObjects.Add(floor1);
+
+
+            Floor floor2 = new Floor(550, 400, 15, 300, "", 0);
+            mObjects.Add(floor2);
+
+
+
+            robot = new Robot(1100, 250);
+            robot.SetScaleXY(0.8f);
+            AddChild(robot);
+
+            Inventory inventory = new Inventory();
+            AddChild(inventory);
+
+            hud = new HUD();
+            AddChild(hud);
+
+
+
+            foreach (Rectangle rectangle in mObjects)
+            {
+                if (!this.HasChild(rectangle))
+                {
+                    AddChild(rectangle);
+                }
+            }
+
+            add();
+        }
+
+        void LoadLevel4()
+        {
+            System.Drawing.Bitmap Bmp = new System.Drawing.Bitmap(game.width, game.height);
+            System.Drawing.Graphics gfx = System.Drawing.Graphics.FromImage(Bmp);
+            System.Drawing.SolidBrush brush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(135, 206, 235));
+            gfx.FillRectangle(brush, 0, 0, game.width, game.height);
+            Sprite _background = new Sprite(Bmp);
+            AddChild(_background);
+
+            floatingFloor1 = new Floor(900, 50, 15, 300, "", 0);
+            mObjects.Add(floatingFloor1);
+
+
+            floatingFloor2 = new Floor(550, 400, 15, 300, "", 0);
+            mObjects.Add(floatingFloor2);
+
+
+
+            robot = new Robot(1100, 250);
+            robot.SetScaleXY(0.8f);
+            AddChild(robot);
+
+            Inventory inventory = new Inventory();
+            AddChild(inventory);
+
+            hud = new HUD();
+            AddChild(hud);
+
+
+
+            foreach (Rectangle rectangle in mObjects)
+            {
+                if (!this.HasChild(rectangle))
+                {
+                    AddChild(rectangle);
+                }
+            }
+
+            add();
+        }
+
 
 
         private void add()
@@ -214,6 +298,18 @@ namespace Colliders.Extra
             {
                 animCounter += 0.1f;
                 arrow.y = arrowY + 20 * Mathf.Sin(animCounter / 2);
+            }
+            if(floatingFloor1 != null)
+            {
+                animCounter += 0.1f;
+                floatingFloor1.y = 250 + 70 * Mathf.Sin(animCounter / 2);
+                floatingFloor2.y = 500 - 70 * Mathf.Sin(animCounter / 2);
+
+                floatingFloor1.pos.y = floatingFloor1.y;
+                floatingFloor2.pos.y = floatingFloor2.y;
+
+                floatingFloor1.UpdateRectangleSize();
+                floatingFloor2.UpdateRectangleSize();
             }
 
             if (Input.GetKeyDown(Key.A))
@@ -304,7 +400,7 @@ namespace Colliders.Extra
 
                         if (aabb.overlap(rigidBodyA.motionBounds, rigidBodyB.motionBounds))
                         {
-                            if (paused)
+                            if (gameVar.paused)
                             {
                                 if (objectinPlacing != null)
                                 {
@@ -314,7 +410,7 @@ namespace Colliders.Extra
 
                             if (rigidBodyA is SubPiston && rigidBodyB is Box || rigidBodyB is SubPiston && rigidBodyA is Box)
                             {
-                                if (paused == true)
+                                if (gameVar.paused == true)
                                 {
                                     continue;
                                 }

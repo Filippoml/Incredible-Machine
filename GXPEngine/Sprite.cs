@@ -31,7 +31,6 @@ namespace GXPEngine
                 _color = (uint)rb + (uint)(rg << 8) + (uint)(rr << 16);
             }
         }
-        private float _alpha = 1.0f;
 
         public bool _mirrorX = false;
         protected bool _mirrorY = false;
@@ -327,7 +326,7 @@ namespace GXPEngine
 
 
 
-
+        private float _alpha = 1.0f;
         //------------------------------------------------------------------------------------------------------------------------
         //														alpha
         //------------------------------------------------------------------------------------------------------------------------

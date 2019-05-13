@@ -11,15 +11,18 @@ namespace Colliders.Objects
     {
         float xCoord, yCoord;
 
+        MyGame gameVar;
+
         public ConveyorBeltObject(float mass, float x, float y, float wid, float hig, float angle, bool placing) : base(mass, x, y, wid, hig, angle, placing)
         {
-
+            gameVar = ((MyGame)game);
         }
 
 
         void Update()
         {
-            if (this.DistanceTo(Input.mouseX, Input.mouseY) < this.width / 2 && Input.GetMouseButtonDown(0) && !placing)
+            if (rectRect(this.x, this.y, this.width, this.height) && Input.GetMouseButtonDown(0) && !placing && !gameVar.level.hud.oneObjectPlacing)
+
             {
                 placing = true;
             }
@@ -41,6 +44,24 @@ namespace Colliders.Objects
             {
                 base.Update();
             }
+        }
+
+        bool rectRect(float r2x, float r2y, float r2w, float r2h)
+        {
+            float r1x = Input.mouseX + this.width/2;
+            float r1y = Input.mouseY;
+            float r1w = 10;
+            float r1h = 10;
+            // are the sides of one rectangle touching the other?
+
+            if (r1x + r1w >= r2x &&    // r1 right edge past r2 left
+                r1x <= r2x + r2w &&    // r1 left edge past r2 right
+                r1y + r1h >= r2y &&    // r1 top edge past r2 bottom
+                r1y <= r2y + r2h)
+            {    // r1 bottom edge past r2 top
+                return true;
+            }
+            return false;
         }
     }
 }

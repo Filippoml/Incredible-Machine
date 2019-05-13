@@ -20,10 +20,9 @@ namespace Colliders
             gameVar = ((MyGame)game);
         }
 
-        int wait = 200;
         void Update()
         {
-            if (this.DistanceTo(Input.mouseX, Input.mouseY) < this.width / 2 && Input.GetMouseButtonDown(0) && !placing)
+            if (this.DistanceTo(Input.mouseX, Input.mouseY) < this.width / 2 && Input.GetMouseButtonDown(0) && !placing && !gameVar.level.hud.oneObjectPlacing)
             {
                 placing = true;
             }
@@ -66,52 +65,13 @@ namespace Colliders
 
 
                     gameVar.level.box.gravity = -number;
-                    //float distance = ((MyGame)game).box.DistanceTo(this);
-                    //float value = 20000 * 1 / (distance * 20);
-                    //Console.WriteLine(value);
-                    //((MyGame)game).box.vel.y = -value;
+
                 }
                 else
                 {
                     gameVar.level.box.gravity = 9.8f;
                 }
-
-                //bool isPresent = false;
-                //foreach (GameObject gameObject in game.GetChildren())
-                //{
-                //    if (gameObject is Wind)
-                //    {
-                //        isPresent = true;
-                //        break;
-                //    }
-                //}
-
-
-                //    if (wait >= 40)
-                //    {
-                //        wait = 0;
-                //        float widthFan = this.width / 1.5f;
-                //        Wind rect = new Wind(this, 2f, this.x - widthFan / 2, this.y - this.height - this.height / 2, widthFan,10, 0);
-                //        rect.vel.y = -100;
-                //        ((MyGame)game).AddChild(rect);
-                //        ((MyGame)game).mObjects.Add(rect);
-
-                //        Wind rect2 = new Wind(this, 2f, this.x - widthFan + 4, this.y - this.height * 1.5f + 3, widthFan/2, 10, -0.5f);
-                //         rect2.vel.y = rect.vel.y;
-                //        ((MyGame)game).AddChild(rect2);
-                //        ((MyGame)game).mObjects.Add(rect2);
-
-
-                //        Wind rect3 = new Wind(this, 2f, this.x +  widthFan /2 - 4, this.y - this.height * 1.5f + 3, widthFan / 2, 10, 0.5f);
-                //         rect3.vel.y = rect.vel.y;
-                //        ((MyGame)game).AddChild(rect3);
-                //        ((MyGame)game).mObjects.Add(rect3);
-                //}
-                //    else
-                //    {
-                //        wait++;
-                //    }
-
+                
                 base.Update();
             }
         }

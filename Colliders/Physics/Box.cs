@@ -32,6 +32,10 @@ namespace Colliders
         {
             if (this.HitTest(gameVar.level.robot))
             {
+
+                Sound backgroundSound = new Sound("Sounds/sound_win.wav", false, true);
+                backgroundSound.Play();
+
                 gameVar.level.hud.graphics.DrawString("LEVEL FINISHED!", font, new SolidBrush(Color.Red), new PointF(900, 100));
                 this.Destroy();
                 gameVar.nextLevel = true;

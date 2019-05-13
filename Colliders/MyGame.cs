@@ -20,11 +20,15 @@ class MyGame : Game {
 
     public MyGame() : base(1920,1080,false,true) {
 
+        //Sound backgroundSound = new Sound("Sounds/sound_incredible_machine.wav", true, false);
+        //backgroundSound.Play();
+
         level = new Level();
-        level.LoadLevel(0);
+        level.LoadLevel(4);
         AddChild(level);
 
         time = 1f / 50f;
+        ShowMouse(true);
     }
     
     void Update()
@@ -46,7 +50,7 @@ class MyGame : Game {
     {
         paused = true;
         nextLevel = false;
-        ShowMouse(true);
+        
         level.Destroy();
         level = new Level();
         AddChild(level);

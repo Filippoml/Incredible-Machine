@@ -18,10 +18,14 @@ namespace Colliders
         public float invI;
         bool canPlayAnimation;
         AnimationSprite spriteSpring, spriteBelt;
-
+        Sound backgroundSound;
         MyGame gameVar;
         public Rectangle(float mass, float x, float y, float wid, float hig, float angle, bool placing) : base(mass, wid, hig, new Vec2(x + wid / 2, y + hig / 2), new Vec2(0, 0), angle)
         {
+            if(this is SpringObject)
+            {
+                backgroundSound = new Sound("Sounds/sound_spring.wav", false, false);
+            }
             gameVar = ((MyGame)game);
             this.placing = placing;
             if(this is Box)
@@ -34,7 +38,8 @@ namespace Colliders
             }
             else if(this is SpringObject)
             {
-                spriteSpring = new AnimationSprite("spring.png",5,3);
+                spriteSpring = new AnimationSprite("spring2.png",5,3);
+                spriteSpring.SetColor(1, 0, 0);
                 spriteSpring.height = (int)hig;
                 spriteSpring.width = (int)wid;
                 spriteSpring.SetOrigin(hig * 2, wid * 2);
@@ -48,6 +53,14 @@ namespace Colliders
                 sprite.height = (int)hig;
                 sprite.width = (int)wid;
                 sprite.SetOrigin(hig * 2, wid * 2);
+                AddChild(sprite);
+            }
+            else if (this is PlankObject)
+            {
+                Sprite sprite = new Sprite("plank.png");
+                sprite.height = (int)hig;
+                sprite.width = (int)wid;
+                sprite.SetOrigin(wid, hig);
                 AddChild(sprite);
             }
             else if(this is ConveyorBeltObject)
@@ -152,6 +165,9 @@ namespace Colliders
             {
                 if (this is Box)
                 {
+                    Sound backgroundSound = new Sound("Sounds/sound_lose.wav", false, true);
+                    backgroundSound.Play();
+
                     gameVar.level.ResetGame();
                 }
                 else
@@ -194,6 +210,9 @@ namespace Colliders
         public void PlayAnimation()
         {
             canPlayAnimation = true;
+
+            backgroundSound.Play();
+
         }
 
         public void generateMotionAABB()

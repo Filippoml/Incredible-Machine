@@ -5,46 +5,32 @@ using System.Text;
 using System.Threading.Tasks;
 using GXPEngine;
 
-namespace Colliders
+namespace Colliders.Objects
 {
-    public class SpringObject : Rectangle
+    class PlankObject : Rectangle
     {
-        MyGame gameVar;
         float xCoord, yCoord;
 
-        public SpringObject(float mass, float x, float y, float wid, float hig, float angle, bool placing) : base(mass, x, y, wid, hig, angle, placing)
+        MyGame gameVar;
+
+        public PlankObject(float mass, float x, float y, float wid, float hig, float angle, bool plancing) : base(mass, x, y, wid, hig, angle, plancing)
         {
+
             gameVar = ((MyGame)game);
         }
+
 
         void Update()
         {
             if (this.DistanceTo(Input.mouseX, Input.mouseY) < this.width / 2 && Input.GetMouseButtonDown(0) && !placing && !gameVar.level.hud.oneObjectPlacing)
             {
-                gameVar.level.numSpringObjects--;
                 placing = true;
             }
             else if (Input.GetMouseButtonDown(0) && canBePlaced)
             {
-                if(gameVar.level.numLevel == 1)
-                {
-                    if(this.DistanceTo(593,471) < 50)
-                    {
-                        gameVar.level.numSpringObjects++;
-                        placing = false;
-                        xCoord = x;
-                        yCoord = y;
-
-                    }
-                }
-                else
-                {
-                    gameVar.level.numSpringObjects++;
-                    placing = false;
-                    xCoord = x;
-                    yCoord = y;
-                }
-
+                placing = false;
+                xCoord = x;
+                yCoord = y;
             }
             else if (placing)
             {
@@ -56,10 +42,8 @@ namespace Colliders
             }
             else
             {
-
                 base.Update();
             }
-            
         }
     }
 }

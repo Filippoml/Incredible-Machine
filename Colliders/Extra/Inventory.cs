@@ -10,7 +10,7 @@ namespace Colliders
 {
     public class Inventory : GameObject
     {
-        Sprite spriteSpring, spriteFan, spriteBelt, spritePiston;
+        Sprite spriteSpring, spriteFan, spriteBelt, spritePiston, spritePlank;
         MyGame gameVar;
         public Inventory()
         {
@@ -29,6 +29,8 @@ namespace Colliders
             spriteFan = new Sprite("invFan.png");
             spriteBelt = new Sprite("invBelt.png");
             spritePiston = new Sprite("invPiston.png");
+            spritePlank = new Sprite("invPlank.png");
+
             if (gameVar.level.numLevel > 1)
             {
          
@@ -50,6 +52,11 @@ namespace Colliders
                 spritePiston.x = 600;
                 spritePiston.y = 795;
                 AddChild(spritePiston);
+
+                spritePlank.SetOrigin(spritePlank.width / 2, spritePlank.height / 2);
+                spritePlank.x = 700;
+                spritePlank.y = 795;
+                AddChild(spritePlank);
             }
             //FanObject pistonObject = new FanObject(1, Input.mouseX, Input.mouseY, 50, 50, 0);
             //AddChild(pistonObject);
@@ -137,6 +144,14 @@ namespace Colliders
                 PistonObject pistonObject = new PistonObject(0, Input.mouseX, Input.mouseY, 70, 45, 0, true);
                 AddChild(pistonObject);
                 gameVar.level.mObjects.Add(pistonObject);
+            }
+
+            else if (spritePlank.DistanceTo(Input.mouseX, Input.mouseY) < spritePlank.width / 2 && Input.GetMouseButtonDown(0))
+            {
+                gameVar.level.hud.destroyPlacingObject();
+                PlankObject plankObject = new PlankObject(0, Input.mouseX, Input.mouseY, 225, 45, 0, true);
+                AddChild(plankObject);
+                gameVar.level.mObjects.Add(plankObject);
             }
 
             if (Input.GetKeyDown(Key.P))

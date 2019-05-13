@@ -37,7 +37,22 @@ namespace Colliders
 
         void Update()
         {
-            if(maxXinit< maxXfin && pistonAnimation)
+            Console.WriteLine(test.placing);
+            if(gameVar.paused && pistonAnimation)
+            {
+                int speed = 10;
+                maxXinit--;
+                test.x -= speed;
+                test.pos.x -= speed;
+
+                test2.x -= speed;
+                test2.pos.x -= speed;
+                if(maxXinit <= 0)
+                {
+                    pistonAnimation = false;
+                }
+            }
+            else if(maxXinit< maxXfin && pistonAnimation)
             {
                 int speed = 10;
                 maxXinit ++;
@@ -47,10 +62,7 @@ namespace Colliders
                 test2.x += speed;
                 test2.pos.x += speed;
 
-                if (maxXinit == maxXfin)
-                {
-                    pistonAnimation = false;
-                }
+
             }
             if (Input.GetMouseButtonDown(1))
             {
@@ -85,7 +97,7 @@ namespace Colliders
 
             }
 
-            if (this.DistanceTo(Input.mouseX, Input.mouseY) < this.width / 2 && Input.GetMouseButtonDown(0) && !placing)
+            if (this.DistanceTo(Input.mouseX, Input.mouseY) < this.width / 2 && Input.GetMouseButtonDown(0) && !placing && !gameVar.level.hud.oneObjectPlacing)
             {
                 test.placing = test2.placing = placing = true;
             }
@@ -114,7 +126,12 @@ namespace Colliders
             }
             else
             {
-                if (gameVar.level.box.x  > this.x + this.width + 13 && gameVar.level.box.x - this.x < 100 && Mathf.Abs(gameVar.level.box.y - this.y) < this.height)
+                if(Input.GetKeyDown(Key.C))
+                {
+
+                }
+               
+                if (gameVar.level.box.x  > this.x + this.width/2  && Mathf.Abs(gameVar.level.box.y - this.y) < this.height)
                 {
                     pistonAnimation = true;
                 }

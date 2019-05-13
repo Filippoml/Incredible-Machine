@@ -133,6 +133,7 @@
     </Compile>
     <Compile Include="Extra\Level.cs" />
     <Compile Include="Objects\ConveyorBeltObject.cs" />
+    <Compile Include="Objects\PlankObject.cs" />
     <Compile Include="Objects\SubPiston.cs" />
     <Compile Include="Objects\Wind.cs" />
     <Compile Include="Physics\AABB.cs" />
