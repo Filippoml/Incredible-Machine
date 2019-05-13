@@ -18,8 +18,11 @@ namespace Colliders
         public float invI;
         bool canPlayAnimation;
         AnimationSprite spriteSpring, spriteBelt;
+
+        MyGame gameVar;
         public Rectangle(float mass, float x, float y, float wid, float hig, float angle, bool placing) : base(mass, wid, hig, new Vec2(x + wid / 2, y + hig / 2), new Vec2(0, 0), angle)
         {
+            gameVar = ((MyGame)game);
             this.placing = placing;
             if(this is Box)
             {
@@ -145,13 +148,20 @@ namespace Colliders
 
 
 
-                //if (this.pos.y > game.height + Math.Sqrt(this.width * this.width + this.height * this.height) * 2)
-                //{
-                //    this.Destroy();
-                //    ((MyGame)game).mObjects.Remove(this);
-                //}
+            if (this.pos.y > game.height + Math.Sqrt(this.width * this.width + this.height * this.height) * 2)
+            {
+                if (this is Box)
+                {
+                    gameVar.level.ResetGame();
+                }
+                else
+                {
+                    this.Destroy();
+                    gameVar.level.mObjects.Remove(this);
+                }
+            }
 
-                if (spriteBelt != null)
+            if (spriteBelt != null)
                 {
                     if (spriteBelt.currentFrame >= 44)
                     {
@@ -333,7 +343,7 @@ namespace Colliders
         public void Remove()
         {
 
-            ((MyGame)game).mObjects.Remove(this);
+            gameVar.level.mObjects.Remove(this);
             this.Destroy();
         }
     }

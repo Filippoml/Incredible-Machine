@@ -15,6 +15,9 @@ namespace Colliders
         public Inventory()
         {
 
+            gameVar = ((MyGame)game);
+
+
 
             spriteSpring  = new Sprite("invSpring.png");
             spriteSpring.SetOrigin(spriteSpring.width / 2, spriteSpring.height / 2);
@@ -24,25 +27,30 @@ namespace Colliders
             AddChild(spriteSpring);
 
             spriteFan = new Sprite("invFan.png");
-            spriteFan.SetOrigin(spriteFan.width / 2, spriteFan.height / 2);
-            spriteFan.x = 400;
-            spriteFan.y = 795;
-            AddChild(spriteFan);
-
-
             spriteBelt = new Sprite("invBelt.png");
-            spriteBelt.SetOrigin(spriteBelt.width / 2, spriteBelt.height / 2);
-            spriteBelt.x = 500;
-            spriteBelt.y = 795;
-            AddChild(spriteBelt);
-
             spritePiston = new Sprite("invPiston.png");
-            spritePiston.SetOrigin(spritePiston.width / 2, spritePiston.height / 2);
-            spritePiston.x = 600;
-            spritePiston.y = 795;
-            AddChild(spritePiston);
+            if (gameVar.level.numLevel > 1)
+            {
+         
+                spriteFan.SetOrigin(spriteFan.width / 2, spriteFan.height / 2);
+                spriteFan.x = 400;
+                spriteFan.y = 795;
+                spriteFan.Mirror(false, true);
+                AddChild(spriteFan);
 
-            gameVar = ((MyGame)game);
+
+            
+                spriteBelt.SetOrigin(spriteBelt.width / 2, spriteBelt.height / 2);
+                spriteBelt.x = 500;
+                spriteBelt.y = 795;
+                AddChild(spriteBelt);
+
+             
+                spritePiston.SetOrigin(spritePiston.width / 2, spritePiston.height / 2);
+                spritePiston.x = 600;
+                spritePiston.y = 795;
+                AddChild(spritePiston);
+            }
             //FanObject pistonObject = new FanObject(1, Input.mouseX, Input.mouseY, 50, 50, 0);
             //AddChild(pistonObject);
             //((MyGame)game).mObjects.Add(pistonObject);
@@ -50,39 +58,85 @@ namespace Colliders
 
         void Update()
         {
-            if (spriteSpring.DistanceTo(Input.mouseX, Input.mouseY) < spriteSpring.width/2 && Input.GetMouseButtonDown(0))
+            if (gameVar.level.numLevel == 1)
             {
-                gameVar.hud.destroyPlacingObject();
-                SpringObject springObject = new SpringObject(0.3f, Input.mouseX, Input.mouseY, 50, 50, 0, true);
-                AddChild(springObject);
+                switch (gameVar.level.tutorialPoint)
+                {
+                    case 0:
 
-                ((MyGame)game).mObjects.Add(springObject);
+                        if (spriteSpring.DistanceTo(Input.mouseX, Input.mouseY) < spriteSpring.width / 2 && Input.GetMouseButtonDown(0))
+                        {
+                            gameVar.level.arrow.x = 550;
+                            gameVar.level.arrowY = gameVar.level.arrow.y = 300;
+
+                            gameVar.level.tutorialPoint = 1;
+                        }
+                        break;
+                    case 1:
+
+                        if (gameVar.level.numSpringObjects == 1)
+                        {
+                            gameVar.level.arrow.x = 25;
+                            gameVar.level.arrowY = gameVar.level.arrow.y = 610;
+
+                            gameVar.level.tutorialPoint++;
+                            break;
+                        }
+
+
+                        break;
+                }
+
             }
 
+
+            if (spriteSpring.DistanceTo(Input.mouseX, Input.mouseY) < spriteSpring.width/2 && Input.GetMouseButtonDown(0))
+            {
+                if (gameVar.level.numLevel == 1 )
+                {
+                    if (gameVar.level.numSpringObjects == 0)
+                    {
+                        gameVar.level.hud.destroyPlacingObject();
+                        SpringObject springObject = new SpringObject(0.3f, Input.mouseX, Input.mouseY, 50, 50, 0, true);
+                        AddChild(springObject);
+
+                        gameVar.level.mObjects.Add(springObject);
+                    }
+                }
+                else
+                {
+                    gameVar.level.hud.destroyPlacingObject();
+                    SpringObject springObject = new SpringObject(0.3f, Input.mouseX, Input.mouseY, 50, 50, 0, true);
+                    AddChild(springObject);
+
+                    gameVar.level.mObjects.Add(springObject);
+                }
+            }
+            
             else if (spriteFan.DistanceTo(Input.mouseX, Input.mouseY) < spriteFan.width/2 && Input.GetMouseButtonDown(0))
             {
-                gameVar.hud.destroyPlacingObject();
+                gameVar.level.hud.destroyPlacingObject();
                 FanObject springObject = new FanObject(0.3f, Input.mouseX, Input.mouseY, 50, 50, 0, true);
                 AddChild(springObject);
 
-                ((MyGame)game).mObjects.Add(springObject);
+                gameVar.level.mObjects.Add(springObject);
             }
 
 
             else if (spriteBelt.DistanceTo(Input.mouseX, Input.mouseY) < spriteBelt.width/2 && Input.GetMouseButtonDown(0))
             {
-                gameVar.hud.destroyPlacingObject();
+                gameVar.level.hud.destroyPlacingObject();
                 ConveyorBeltObject beltObject = new ConveyorBeltObject(0, Input.mouseX, Input.mouseY, 230, 45, 0, true);
                 AddChild(beltObject);
-                ((MyGame)game).mObjects.Add(beltObject);
+                gameVar.level.mObjects.Add(beltObject);
             }
 
             else if (spritePiston.DistanceTo(Input.mouseX, Input.mouseY) < spritePiston.width/2 && Input.GetMouseButtonDown(0))
             {
-                gameVar.hud.destroyPlacingObject();
+                gameVar.level.hud.destroyPlacingObject();
                 PistonObject pistonObject = new PistonObject(0, Input.mouseX, Input.mouseY, 70, 45, 0, true);
                 AddChild(pistonObject);
-                ((MyGame)game).mObjects.Add(pistonObject);
+                gameVar.level.mObjects.Add(pistonObject);
             }
 
             if (Input.GetKeyDown(Key.P))
@@ -90,7 +144,7 @@ namespace Colliders
                 SpringObject springObject = new SpringObject(0.3f, 200, 322, 50, 50, 0, true);
                 AddChild(springObject);
 
-                ((MyGame)game).mObjects.Add(springObject);
+                gameVar.level.mObjects.Add(springObject);
             }
         }
     }

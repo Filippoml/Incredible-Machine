@@ -132,7 +132,6 @@
       <Link>GXPEngine\Utils\Utils.cs</Link>
     </Compile>
     <Compile Include="Extra\Level.cs" />
-    <Compile Include="Extra\WaitingTick.cs" />
     <Compile Include="Objects\ConveyorBeltObject.cs" />
     <Compile Include="Objects\SubPiston.cs" />
     <Compile Include="Objects\Wind.cs" />

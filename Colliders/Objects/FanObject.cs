@@ -13,9 +13,11 @@ namespace Colliders
     {
         float xCoord, yCoord;
 
+        MyGame gameVar;
+
         public FanObject(float mass, float x, float y, float wid, float hig, float angle, bool placing) : base(mass, x, y, wid, hig, angle, placing)
         {
-
+            gameVar = ((MyGame)game);
         }
 
         int wait = 200;
@@ -41,9 +43,9 @@ namespace Colliders
             }
             else
             {
-                if (Mathf.Abs(((MyGame)game).box.x - this.x)< this.width)
+                if (Mathf.Abs(gameVar.level.box.x - this.x)< this.width)
                 {
-                    float distance = ((MyGame)game).box.DistanceTo(this);
+                    float distance = gameVar.level.box.DistanceTo(this);
                     float number = -9.8f;
 
 
@@ -59,11 +61,11 @@ namespace Colliders
                     {
                         number = 2;
                     }
-  
 
 
 
-                    ((MyGame)game).box.gravity = -number;
+
+                    gameVar.level.box.gravity = -number;
                     //float distance = ((MyGame)game).box.DistanceTo(this);
                     //float value = 20000 * 1 / (distance * 20);
                     //Console.WriteLine(value);
@@ -71,7 +73,7 @@ namespace Colliders
                 }
                 else
                 {
-                    ((MyGame)game).box.gravity = 9.8f;
+                    gameVar.level.box.gravity = 9.8f;
                 }
 
                 //bool isPresent = false;

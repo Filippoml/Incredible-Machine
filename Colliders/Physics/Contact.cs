@@ -80,7 +80,10 @@ namespace Colliders
 
             if (A.placing == false && B.placing == false)
             {
+                if(A is SubPiston || B is SubPiston)
+                {
 
+                }
                 if (B is Box && A is PistonObject)
                 {
                     this.B.vel.subtractMultipledVector(this.B.invMass, imp);

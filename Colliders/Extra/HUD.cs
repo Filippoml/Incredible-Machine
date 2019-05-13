@@ -16,6 +16,7 @@ namespace Colliders
         bool oneObjectPlacing;
         public HUD() : base(MyGame.main.width, MyGame.main.height)
         {
+            gameVar = ((MyGame)game);
             playButton = new Button(70, 800, "play.png");
             playButton.SetOrigin(playButton.width / 2, playButton.height / 2);
             AddChild(playButton);
@@ -45,9 +46,20 @@ namespace Colliders
 
             if (playButton.DistanceTo(Input.mouseX, Input.mouseY) < playButton.width / 2 && Input.GetMouseButtonDown(0))
             {
-                ((MyGame)game).ResetGame();
-                ((MyGame)game).time = 1f / 50f;
-                ((MyGame)game).paused = false;
+                if (gameVar.level.numLevel == 1)
+                {
+                    if(gameVar.level.tutorialPoint == 2)
+                    {
+                        gameVar.level.arrow.visible = false;
+                        gameVar.time = 1f / 50f;
+                        gameVar.paused = false;
+                    }
+                }
+                else
+                {
+                    gameVar.time = 1f / 50f;
+                    gameVar.paused = false;
+                }
             }
 
             pauseStatus.visible = ((MyGame)game).paused;
@@ -55,7 +67,7 @@ namespace Colliders
 
             oneObjectPlacing = false; //Are you placing objects
             objectPlacing = null;
-            gameVar = ((MyGame)game);
+  
 
             
             getPlacingObject();
@@ -87,7 +99,7 @@ namespace Colliders
                     PistonObject pistonObject = objectPlacing as PistonObject;
                     pistonObject.DestroyChildren();
                 }
-                gameVar.mObjects.Remove(objectPlacing);
+                gameVar.level.mObjects.Remove(objectPlacing);
                 objectPlacing.Destroy();
             }
         }
@@ -95,7 +107,7 @@ namespace Colliders
 
         void getPlacingObject()
         {
-            foreach (Rectangle rect in gameVar.mObjects)
+            foreach (Rectangle rect in gameVar.level.mObjects)
             {
                 if (rect.placing)
                 {

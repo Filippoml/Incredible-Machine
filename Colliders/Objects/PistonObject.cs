@@ -17,17 +17,20 @@ namespace Colliders
         EasyDraw easyDraw;
         int numWidth;
         SubPiston test, test2;
+
+        MyGame gameVar;
         public PistonObject(float mass, float x, float y, float wid, float hig, float angle, bool placing) : base(mass, x, y, wid, hig, angle, placing)
         {
+            gameVar = ((MyGame)game);
 
             numWidth = (int) this.width;
             test = new SubPiston(0, 0, 0, 50, 10, 0);
             test2 = new SubPiston(0, 0, 0, 10, 40, 0);
-            ((MyGame)game).AddChild(test);
-            ((MyGame)game).mObjects.Add(test);
+            gameVar.level.AddChild(test);
+            gameVar.level.mObjects.Add(test);
 
-            ((MyGame)game).AddChild(test2);
-            ((MyGame)game).mObjects.Add(test2);
+            gameVar.level.AddChild(test2);
+            gameVar.level.mObjects.Add(test2);
 
             //((MyGame)game).mObjects.Add(test2);
         }
@@ -84,12 +87,11 @@ namespace Colliders
 
             if (this.DistanceTo(Input.mouseX, Input.mouseY) < this.width / 2 && Input.GetMouseButtonDown(0) && !placing)
             {
-                placing = true;
+                test.placing = test2.placing = placing = true;
             }
             else if (Input.GetMouseButtonDown(0) && canBePlaced)
             {
-        
-                placing = false;
+                test.placing = test2.placing = placing = false;
                 xCoord = x;
                 yCoord = y;
             }
@@ -112,7 +114,7 @@ namespace Colliders
             }
             else
             {
-                if (((MyGame)game).box.x  > this.x + this.width + 13 && ((MyGame)game).box.x - this.x < 100 && Mathf.Abs(((MyGame)game).box.y - this.y) < this.height)
+                if (gameVar.level.box.x  > this.x + this.width + 13 && gameVar.level.box.x - this.x < 100 && Mathf.Abs(gameVar.level.box.y - this.y) < this.height)
                 {
                     pistonAnimation = true;
                 }
@@ -121,6 +123,7 @@ namespace Colliders
                 test2.UpdateRectangleSize();
 
             }
+            
             test.y = test.pos.y = this.y;
             test2.y = test2.pos.y = this.y;
   
@@ -128,11 +131,11 @@ namespace Colliders
 
         public void DestroyChildren()
         {
-            var gameVar = ((MyGame)game);
-            gameVar.mObjects.Remove(test);
+     
+            gameVar.level.mObjects.Remove(test);
             test.Destroy();
 
-            gameVar.mObjects.Remove(test2);
+            gameVar.level.mObjects.Remove(test2);
             test2.Destroy();
         }
     }
