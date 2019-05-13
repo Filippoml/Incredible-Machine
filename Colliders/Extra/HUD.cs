@@ -11,6 +11,9 @@ namespace Colliders
     {
         Sprite playStatus, pauseStatus;
         Button deleteButton, playButton;
+        Rectangle objectPlacing;
+        MyGame gameVar;
+        bool oneObjectPlacing;
         public HUD() : base(MyGame.main.width, MyGame.main.height)
         {
             playButton = new Button(70, 800, "play.png");
@@ -40,7 +43,7 @@ namespace Colliders
         void Update()
         {
 
-            if (playButton.DistanceTo(Input.mouseX, Input.mouseY) < playButton.width/2 && Input.GetMouseButtonDown(0))
+            if (playButton.DistanceTo(Input.mouseX, Input.mouseY) < playButton.width / 2 && Input.GetMouseButtonDown(0))
             {
                 ((MyGame)game).ResetGame();
                 ((MyGame)game).time = 1f / 50f;
@@ -50,9 +53,48 @@ namespace Colliders
             pauseStatus.visible = ((MyGame)game).paused;
             playStatus.visible = !((MyGame)game).paused;
 
-            bool oneObjectPlacing = false; //Are you placing objects
-            Rectangle objectPlacing = null;
-            var gameVar = ((MyGame)game);
+            oneObjectPlacing = false; //Are you placing objects
+            objectPlacing = null;
+            gameVar = ((MyGame)game);
+
+            
+            getPlacingObject();
+
+            deleteButton.visible = oneObjectPlacing;
+
+            if (deleteButton.visible)
+            {
+                if (Input.GetMouseButtonDown(1))
+                {
+
+                    destroyPlacingObject();
+
+                }
+                else if (deleteButton.DistanceTo(Input.mouseX, Input.mouseY) < deleteButton.width / 2 && Input.GetMouseButtonDown(0))
+                {
+                    destroyPlacingObject();
+
+                }
+            }
+        }
+
+        public void destroyPlacingObject()
+        {
+            if (deleteButton.visible)
+            {
+                if (objectPlacing is PistonObject)
+                {
+                    PistonObject pistonObject = objectPlacing as PistonObject;
+                    pistonObject.DestroyChildren();
+                }
+                gameVar.mObjects.Remove(objectPlacing);
+                objectPlacing.Destroy();
+            }
+        }
+    
+
+        void getPlacingObject()
+        {
             foreach (Rectangle rect in gameVar.mObjects)
             {
                 if (rect.placing)
@@ -62,42 +104,6 @@ namespace Colliders
                     break;
                 }
             }
-
-
-
-            deleteButton.visible = oneObjectPlacing;
-
-            if (deleteButton.visible)
-            {
-                if(Input.GetMouseButtonDown(1))
-                {
-                    if (deleteButton != null)
-                    {
-                        if (objectPlacing is PistonObject)
-                        {
-                            PistonObject pistonObject = objectPlacing as PistonObject;
-                            pistonObject.DestroyChildren();
-                        }
-                        gameVar.mObjects.Remove(objectPlacing);
-                        objectPlacing.Destroy();
-                    }
-                }
-                else if (deleteButton.DistanceTo(Input.mouseX, Input.mouseY) < deleteButton.width/2 && Input.GetMouseButtonDown(0))
-                {
-                    if(deleteButton != null)
-                    {
-                        if(objectPlacing is PistonObject)
-                        {
-                            PistonObject pistonObject = objectPlacing as PistonObject;
-                            pistonObject.DestroyChildren();
-                        }
-                        gameVar.mObjects.Remove(objectPlacing);
-                        objectPlacing.Destroy();
-                    }
-                }
-            }
         }
-
-        
     }
 }

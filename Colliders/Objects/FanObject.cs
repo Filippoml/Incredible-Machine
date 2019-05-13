@@ -21,20 +21,23 @@ namespace Colliders
         int wait = 200;
         void Update()
         {
-
-            if (Input.GetMouseButtonDown(0) && canBePlaced)
+            if (this.DistanceTo(Input.mouseX, Input.mouseY) < this.width / 2 && Input.GetMouseButtonDown(0) && !placing)
+            {
+                placing = true;
+            }
+            else if (Input.GetMouseButtonDown(0) && canBePlaced)
             {
                 placing = false;
                 xCoord = x;
                 yCoord = y;
             }
-            if (placing)
+            else if (placing)
             {
                 this.x = Input.mouseX;
                 this.y = Input.mouseY;
                 base.pos.x = Input.mouseX;
                 base.pos.y = Input.mouseY;
-
+                UpdateRectangleSize();
             }
             else
             {

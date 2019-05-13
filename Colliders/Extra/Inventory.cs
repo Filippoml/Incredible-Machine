@@ -11,6 +11,7 @@ namespace Colliders
     public class Inventory : GameObject
     {
         Sprite spriteSpring, spriteFan, spriteBelt, spritePiston;
+        MyGame gameVar;
         public Inventory()
         {
 
@@ -41,7 +42,7 @@ namespace Colliders
             spritePiston.y = 795;
             AddChild(spritePiston);
 
-
+            gameVar = ((MyGame)game);
             //FanObject pistonObject = new FanObject(1, Input.mouseX, Input.mouseY, 50, 50, 0);
             //AddChild(pistonObject);
             //((MyGame)game).mObjects.Add(pistonObject);
@@ -51,6 +52,7 @@ namespace Colliders
         {
             if (spriteSpring.DistanceTo(Input.mouseX, Input.mouseY) < spriteSpring.width/2 && Input.GetMouseButtonDown(0))
             {
+                gameVar.hud.destroyPlacingObject();
                 SpringObject springObject = new SpringObject(0.3f, Input.mouseX, Input.mouseY, 50, 50, 0, true);
                 AddChild(springObject);
 
@@ -59,6 +61,7 @@ namespace Colliders
 
             else if (spriteFan.DistanceTo(Input.mouseX, Input.mouseY) < spriteFan.width/2 && Input.GetMouseButtonDown(0))
             {
+                gameVar.hud.destroyPlacingObject();
                 FanObject springObject = new FanObject(0.3f, Input.mouseX, Input.mouseY, 50, 50, 0, true);
                 AddChild(springObject);
 
@@ -68,6 +71,7 @@ namespace Colliders
 
             else if (spriteBelt.DistanceTo(Input.mouseX, Input.mouseY) < spriteBelt.width/2 && Input.GetMouseButtonDown(0))
             {
+                gameVar.hud.destroyPlacingObject();
                 ConveyorBeltObject beltObject = new ConveyorBeltObject(0, Input.mouseX, Input.mouseY, 230, 45, 0, true);
                 AddChild(beltObject);
                 ((MyGame)game).mObjects.Add(beltObject);
@@ -75,6 +79,7 @@ namespace Colliders
 
             else if (spritePiston.DistanceTo(Input.mouseX, Input.mouseY) < spritePiston.width/2 && Input.GetMouseButtonDown(0))
             {
+                gameVar.hud.destroyPlacingObject();
                 PistonObject pistonObject = new PistonObject(0, Input.mouseX, Input.mouseY, 70, 45, 0, true);
                 AddChild(pistonObject);
                 ((MyGame)game).mObjects.Add(pistonObject);

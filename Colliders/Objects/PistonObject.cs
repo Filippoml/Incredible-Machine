@@ -82,15 +82,18 @@ namespace Colliders
 
             }
 
-
-            if (Input.GetMouseButtonDown(0) && canBePlaced)
+            if (this.DistanceTo(Input.mouseX, Input.mouseY) < this.width / 2 && Input.GetMouseButtonDown(0) && !placing)
+            {
+                placing = true;
+            }
+            else if (Input.GetMouseButtonDown(0) && canBePlaced)
             {
         
                 placing = false;
                 xCoord = x;
                 yCoord = y;
             }
-            if (placing)
+            else if (placing)
             {
                 this.x = Input.mouseX;
                 this.y = Input.mouseY;
@@ -103,6 +106,9 @@ namespace Colliders
                 test.pos.x = Input.mouseX + 100;
                 test2.pos.x = Input.mouseX + 100;
 
+                UpdateRectangleSize();
+                test.UpdateRectangleSize();
+                test2.UpdateRectangleSize();
             }
             else
             {

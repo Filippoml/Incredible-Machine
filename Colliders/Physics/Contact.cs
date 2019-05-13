@@ -78,7 +78,7 @@ namespace Colliders
             //}
 
 
-            if (A.vel.y != 0 || B.vel.y != 0)
+            if (A.placing == false && B.placing == false)
             {
 
                 if (B is Box && A is PistonObject)
