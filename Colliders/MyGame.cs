@@ -16,7 +16,7 @@ class MyGame : Game {
     public bool paused = true;
     public Level level;
 
-    int numLevel = 0;
+    int numLevel = 3;
 
     public MyGame() : base(1920,1080,false,true) {
 
@@ -24,7 +24,7 @@ class MyGame : Game {
         //backgroundSound.Play();
 
         level = new Level();
-        level.LoadLevel(4);
+        level.LoadLevel(3);
         AddChild(level);
 
         time = 1f / 50f;

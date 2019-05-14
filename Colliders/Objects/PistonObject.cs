@@ -37,7 +37,7 @@ namespace Colliders
 
         void Update()
         {
-            Console.WriteLine(test.placing);
+            
             if(gameVar.paused && pistonAnimation)
             {
                 int speed = 10;
@@ -131,7 +131,7 @@ namespace Colliders
 
                 }
                
-                if (gameVar.level.box.x  > this.x + this.width/2  && Mathf.Abs(gameVar.level.box.y - this.y) < this.height)
+                if (gameVar.level.box.x  > this.x + this.width/2  && Mathf.Abs(gameVar.level.box.y - this.y) < this.height && !gameVar.paused)
                 {
                     pistonAnimation = true;
                 }

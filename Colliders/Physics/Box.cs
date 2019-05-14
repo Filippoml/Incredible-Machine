@@ -15,6 +15,8 @@ namespace Colliders
         Font _font;
         MyGame gameVar;
         float halfWidth, halfHeight;
+
+        Sound backgroundSound;
         public Box(float mass, float x, float y, float wid, float hig, float angle):base(mass,x,y,wid,hig,angle, false)
         {
             gameVar = ((MyGame)game);
@@ -26,6 +28,8 @@ namespace Colliders
             PrivateFontCollection pfc = new PrivateFontCollection();
             pfc.AddFontFile("font.ttf");
             _font = new Font(new FontFamily(pfc.Families[0].Name), 50, FontStyle.Regular);
+
+            backgroundSound = new Sound("Sounds/sound_win.wav", false, true);
         }
 
         public void Update()
@@ -33,11 +37,10 @@ namespace Colliders
             if (this.HitTest(gameVar.level.robot))
             {
 
-                Sound backgroundSound = new Sound("Sounds/sound_win.wav", false, true);
+         
                 backgroundSound.Play();
-
-                gameVar.level.hud.graphics.DrawString("LEVEL FINISHED!", font, new SolidBrush(Color.Red), new PointF(900, 100));
                 this.Destroy();
+                gameVar.level.ShowNextLevelButton();
                 gameVar.nextLevel = true;
             }
             base.Update();

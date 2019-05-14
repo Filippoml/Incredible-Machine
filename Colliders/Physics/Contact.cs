@@ -61,7 +61,7 @@ namespace Colliders
         public void applyImpulses(Vec2 imp)
         {
 
-
+            bool verticalFloor = false;
 
             //Vec2 friction = new Vec2(100, 100);
             //if (A is ConveyorBeltObject)
@@ -86,12 +86,19 @@ namespace Colliders
                     this.B.vel.subtractMultipledVector(this.B.invMass, imp);
 
                 }
-                else if (B is Box && A is ConveyorBeltObject)
+                else if (A is Floor && B is Box)
                 {
-
-
+                    float test = -B.vel.x * 0.5f;
                     this.B.vel.subtractMultipledVector(this.B.invMass, imp);
-                    this.B.vel.x = 100;
+                    this.B.vel.x = test;
+                    verticalFloor = true;
+                }
+                else if (B is Floor && A is Box)
+                {
+                    float test = -A.vel.x * 0.5f;
+                    this.A.vel.addMultipledVector(this.B.invMass, imp);
+                    this.A.vel.x = test;
+                    verticalFloor = true;
                 }
 
                 else if (A is FanObject && B is Box)
@@ -131,18 +138,39 @@ namespace Colliders
                         this.B.vel.subtractMultipledVector(this.B.invMass, imp);
                     }
                 }
-                else
+                else if(A is Floor && B is Box)
                 {
-                   
-                    
+                    if(B.vel.x == 100)
+                    {
+                        B.vel.x = 0;
+                    }
+                 
                         this.A.vel.addMultipledVector(this.A.invMass, imp);
-
                         this.B.vel.subtractMultipledVector(this.B.invMass, imp);
                     
+                    
+                }
+                else if(A is Box && B is Floor)
+                {
+                    this.A.vel.addMultipledVector(this.A.invMass, imp);
+                    this.B.vel.addMultipledVector(this.B.invMass, imp);
+                    
+                }
+                else if (B is Box && A is ConveyorBeltObject)
+                {
+                    this.B.vel.x = 100;
+                    this.B.vel.subtractMultipledVector(this.B.invMass, imp);
+                }
+                else if (A is Box && B is ConveyorBeltObject)
+                {
+                    this.A.vel.x = 100;
+                    this.A.vel.addMultipledVector(this.A.invMass, imp);
 
-
-
-
+                }
+                else
+                {
+                    this.A.vel.addMultipledVector(this.A.invMass, imp);
+                    this.B.vel.subtractMultipledVector(this.B.invMass, imp);
                 }
 
 
@@ -151,8 +179,9 @@ namespace Colliders
                 //{
                 //    A.Remove(); 
                 //}
-                if (A is Floor && B is Box || B is Floor && A is Box)
+                if (!(A is SpringObject || B is SpringObject || A is FanObject || B is FanObject || A is SubPiston || B is SubPiston || verticalFloor))
                 {
+
                     float a = imp.dotProduct(this.ra) * this.A.invI;
                     float b = imp.dotProduct(this.rb) * this.B.invI;
 

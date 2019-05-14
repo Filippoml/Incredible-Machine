@@ -10,6 +10,7 @@ namespace Colliders
 {
     public class Rectangle : RigidBody
     {
+        public List<Rectangle> collisions;
         public bool placing , canBePlaced;
         public string names;
         Vec2 halfExtents, halfExtentsMinus;
@@ -17,12 +18,14 @@ namespace Colliders
         List<Vec2> localSpaceNormals;
         public float invI;
         bool canPlayAnimation;
-        AnimationSprite spriteSpring, spriteBelt;
         Sound backgroundSound;
         MyGame gameVar;
+        public Sprite sprite;
+        public AnimationSprite animationSprite;
         public Rectangle(float mass, float x, float y, float wid, float hig, float angle, bool placing) : base(mass, wid, hig, new Vec2(x + wid / 2, y + hig / 2), new Vec2(0, 0), angle)
         {
-            if(this is SpringObject)
+            collisions = new List<Rectangle>();
+            if (this is SpringObject)
             {
                 backgroundSound = new Sound("Sounds/sound_spring.wav", false, false);
             }
@@ -30,25 +33,26 @@ namespace Colliders
             this.placing = placing;
             if(this is Box)
             {
-                Sprite sprite = new Sprite("bomb.png");
+                sprite = new Sprite("bomb.png");
                 sprite.height = (int)hig;
                 sprite.width = (int)wid;
-                sprite.SetOrigin(hig * 2 , wid * 2);
+                sprite.SetOrigin(hig * 2, wid * 2);
                 AddChild(sprite);
             }
             else if(this is SpringObject)
             {
-                spriteSpring = new AnimationSprite("spring2.png",5,3);
-                spriteSpring.SetColor(1, 0, 0);
-                spriteSpring.height = (int)hig;
-                spriteSpring.width = (int)wid;
-                spriteSpring.SetOrigin(hig * 2, wid * 2);
+                animationSprite = new AnimationSprite("spring.png",5,3);
+                animationSprite.SetColor(0, 0, 0);
+                animationSprite.height = (int)hig;
+                animationSprite.width = (int)wid;
+                animationSprite.SetOrigin(hig * 2, wid * 2);
         
-                AddChild(spriteSpring);
+                AddChild(animationSprite);
             }
             else if(this is FanObject)
             {
-                Sprite sprite = new Sprite("fan.png");
+                sprite = new Sprite("fan.png");
+            
                 sprite.rotation = 180;
                 sprite.height = (int)hig;
                 sprite.width = (int)wid;
@@ -57,7 +61,7 @@ namespace Colliders
             }
             else if (this is PlankObject)
             {
-                Sprite sprite = new Sprite("plank.png");
+                sprite = new Sprite("plank.png");
                 sprite.height = (int)hig;
                 sprite.width = (int)wid;
                 sprite.SetOrigin(wid, hig);
@@ -65,12 +69,12 @@ namespace Colliders
             }
             else if(this is ConveyorBeltObject)
             {
-                spriteBelt = new AnimationSprite("belt.png", 4, 12);
-             
-                spriteBelt.height = (int)hig;
-                spriteBelt.width = (int)wid;
-                spriteBelt.SetOrigin(wid, hig);
-                AddChild(spriteBelt);
+                animationSprite = new AnimationSprite("belt.png", 4, 12);
+                
+                animationSprite.height = (int)hig;
+                animationSprite.width = (int)wid;
+                animationSprite.SetOrigin(wid, hig);
+                AddChild(animationSprite);
             }
             //else if (this is Wind)
             //{
@@ -165,8 +169,8 @@ namespace Colliders
             {
                 if (this is Box)
                 {
-                    Sound backgroundSound = new Sound("Sounds/sound_lose.wav", false, true);
-                    backgroundSound.Play();
+                    //Sound backgroundSound = new Sound("Sounds/sound_lose.wav", false, true);
+                    //backgroundSound.Play();
 
                     gameVar.level.ResetGame();
                 }
@@ -177,34 +181,39 @@ namespace Colliders
                 }
             }
 
-            if (spriteBelt != null)
+            if (animationSprite != null && this is ConveyorBeltObject)
+            {
+                if (animationSprite.currentFrame >= 44)
                 {
-                    if (spriteBelt.currentFrame >= 44)
-                    {
-                        spriteBelt.SetFrame(0);
-                    }
-                    else
-                    {
-                        spriteBelt.NextFrame();
-                    }
-
+                    animationSprite.SetFrame(0);
+                }
+                else
+                {
+                    animationSprite.NextFrame();
                 }
 
-                base.Update();
-                generateMotionAABB();
+            }
 
-                if (this is SpringObject)
-                {
-                    if (canPlayAnimation)
-                    {
-                        spriteSpring.NextFrame();
-                        if (spriteSpring.currentFrame >= 14)
-                        {
-                            canPlayAnimation = false;
-                        }
-                    }
-                }
+            if (animationSprite != null && this is Box)
+            {
             
+            }
+
+            base.Update();
+            generateMotionAABB();
+
+            if (this is SpringObject)
+            {
+                if (canPlayAnimation)
+                {
+                    animationSprite.NextFrame();
+                    if (animationSprite.currentFrame >= 14)
+                    {
+                        canPlayAnimation = false;
+                    }
+                }
+            }
+
         }
 
         public void PlayAnimation()

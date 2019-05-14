@@ -56,13 +56,10 @@ namespace Colliders.Extra
                     LoadLevel1();
                     break;
                 case 2:
-                    LoadLevel2();
+                    LoadLevel4();
                     break;
                 case 3:
                     LoadLevel3();
-                    break;
-                case 4:
-                    LoadLevel4();
                     break;
             }
         }
@@ -177,12 +174,21 @@ namespace Colliders.Extra
             Sprite _background = new Sprite(Bmp);
             AddChild(_background);
 
-            Floor floor1 = new Floor(900, 50, 15, 300, "", 0);
+            Floor floor1 = new Floor(50, 400, 20, 300, "", 0);
             mObjects.Add(floor1);
 
 
-            Floor floor2 = new Floor(550, 400, 15, 300, "", 0);
+            Floor floor2 = new Floor(350, 50, 20, 250, "", 0);
             mObjects.Add(floor2);
+
+            Floor floor3 = new Floor(550, 400, 20, 250, "", 0);
+            mObjects.Add(floor3);
+
+            Floor floor4 = new Floor(370, 50, 300, 20, "", 0);
+            mObjects.Add(floor4);
+
+            Floor floor5 = new Floor(670, 50, 20, 250, "", 0);
+            mObjects.Add(floor5);
 
 
 
@@ -218,11 +224,17 @@ namespace Colliders.Extra
             Sprite _background = new Sprite(Bmp);
             AddChild(_background);
 
-            floatingFloor1 = new Floor(900, 50, 15, 300, "", 0);
-            mObjects.Add(floatingFloor1);
+            Floor floor1 = new Floor(40, 200, 150, 15, "", 0);
+            mObjects.Add(floor1);
+
+            Floor floor2 = new Floor(900, 50, 15, 375, "", 0);
+            mObjects.Add(floor2);
+
+            Floor floor3 = new Floor(900, 50, 15, 200, "", 0);
+            mObjects.Add(floor3);
 
 
-            floatingFloor2 = new Floor(550, 400, 15, 300, "", 0);
+            floatingFloor2 = new Floor(550, 400, 15, 375, "", 0);
             mObjects.Add(floatingFloor2);
 
 
@@ -254,20 +266,37 @@ namespace Colliders.Extra
 
         private void add()
         {
-            box = new Box(1, 100, 122, 50, 50, 0);
+            box = new Box(1, 100, 122, 60, 60, 0);
 
             AddChild(box);
             mObjects.Add(box);
         }
+     
+        float counter = 0;
+        Sprite nextLevel;
+
         public void Update()
         {
-            if(numLevel == 0)
+
+            if (counter > 0)
             {
-                if(Input.GetKeyDown(Key.RIGHT))
+                if(counter < 100)
                 {
-                    gameVar.NextLevel();
+                    nextLevel.SetScaleXY(counter / 100f);
                 }
 
+                if (counter > 400)
+                {
+
+                    gameVar.NextLevel();
+                    counter = 0;
+
+                }
+                counter += 2.5f;
+            }
+
+            if (numLevel == 0)
+            {
                 if (opacityPlus)
                 {
                     _easyDraw.alpha += 0.01f;
@@ -299,11 +328,11 @@ namespace Colliders.Extra
                 animCounter += 0.1f;
                 arrow.y = arrowY + 20 * Mathf.Sin(animCounter / 2);
             }
-            if(floatingFloor1 != null)
+            if (floatingFloor1 != null)
             {
                 animCounter += 0.1f;
-                floatingFloor1.y = 250 + 70 * Mathf.Sin(animCounter / 2);
-                floatingFloor2.y = 500 - 70 * Mathf.Sin(animCounter / 2);
+                floatingFloor1.y = 250 + 50 * Mathf.Sin(animCounter / 6);
+                floatingFloor2.y = 500 - 50 * Mathf.Sin(animCounter / 6);
 
                 floatingFloor1.pos.y = floatingFloor1.y;
                 floatingFloor2.pos.y = floatingFloor2.y;
@@ -348,6 +377,35 @@ namespace Colliders.Extra
 
             List<Contact> contacts2 = new List<Contact>();
 
+            
+            foreach(Rectangle rect in mObjects)
+            {
+                if (rect is SpringObject)
+                {
+                    if (rect.animationSprite != null)
+                    {
+                        rect.animationSprite.SetColor(0, 0, 0);
+                    }
+                    if (rect.sprite != null)
+                    {
+                        rect.sprite.SetColor(0, 0, 0);
+                    }
+                }
+                else
+                {
+                    if (rect.animationSprite != null)
+                    {
+                        rect.animationSprite.SetColor(1, 1, 1);
+                    }
+                    if (rect.sprite != null)
+                    {
+                        rect.sprite.SetColor(1, 1, 1);
+                    }
+                }
+                rect.collisions.Clear();
+            }
+
+            Rectangle box2 = null, belt2 = null, floor2 = null;
             for (var ii = 0; ii < mObjects.Count; ii++)
             {
                 var rigidBodyA = mObjects[ii];
@@ -391,15 +449,30 @@ namespace Colliders.Extra
 
 
 
-                    if (rigidBodyA.mass != 0 || rigidBodyB.mass != 0)
+                    if ((rigidBodyA.mass != 0 || rigidBodyB.mass != 0) || gameVar.paused)
                     {
 
                         var aabb = new AABB();
 
 
-
                         if (aabb.overlap(rigidBodyA.motionBounds, rigidBodyB.motionBounds))
                         {
+
+                            if (rigidBodyA is Box)
+                            {
+                                box2 = rigidBodyA;
+
+                                if (rigidBodyB is ConveyorBeltObject)
+                                {
+                                    belt2 = rigidBodyB;
+
+                                }
+                                else if (rigidBodyB is Floor)
+                                {
+                                    floor2 = rigidBodyB;
+                                }
+                                rigidBodyA.collisions.Add(rigidBodyB);
+                            }
                             if (gameVar.paused)
                             {
                                 if (objectinPlacing != null)
@@ -417,6 +490,31 @@ namespace Colliders.Extra
                             }
 
 
+                            if (rigidBodyA.placing)
+                            {
+                                if (rigidBodyA.animationSprite != null)
+                                {
+                                    rigidBodyA.animationSprite.SetColor(1, 0, 0);
+                                }
+                                if (rigidBodyA.sprite != null)
+                                {
+                                    rigidBodyA.sprite.SetColor(1, 0, 0);
+                                }
+                            }
+
+
+                            if (rigidBodyB.placing)
+                            {
+                                if (rigidBodyB.animationSprite != null)
+                                {
+                                    rigidBodyB.animationSprite.SetColor(1, 0, 0);
+                                }
+                                if (rigidBodyB.sprite != null)
+                                {
+                                    rigidBodyB.sprite.SetColor(1, 0, 0);
+                                }
+                            }
+
                             Geometry geometry = new Geometry();
 
 
@@ -429,7 +527,6 @@ namespace Colliders.Extra
 
                         }
 
-
                     }
                 }
                 if (rigidBodyA.width == 50)
@@ -441,7 +538,31 @@ namespace Colliders.Extra
                     }
 
                 }
+                bool boolean1 = false, boolean2 = false;
+                Contact test = null;
+                foreach (Contact contact in contacts2)
+                {
+                    if (contact.A is Box && contact.B is ConveyorBeltObject || contact.B is Box && contact.A is ConveyorBeltObject)
+                    {
+                        boolean1 = true;
+                        test = contact;
+                    }
+                    if (contact.A is Box && contact.B is Floor || contact.B is Box && contact.A is Floor)
+                    {
+                        boolean2 = true;
+                    }
+
+
+
+                }
+
+                if(boolean1 && boolean2)
+                {
+                    contacts2.Remove(test);
+                    //box.vel.x = 0;
+                }
             }
+
 
 
             return contacts2.ToArray();
@@ -495,6 +616,18 @@ namespace Colliders.Extra
             box.Destroy();
             mObjects.Remove(box);
             add();
+        }
+
+        public void ShowNextLevelButton()
+        {
+            counter = 1;
+
+
+            nextLevel = new Sprite(300, 100, Color.Red);
+            AddChild(nextLevel);
+            nextLevel.SetOrigin(nextLevel.width / 2, nextLevel.height / 2);
+            nextLevel.SetXY(game.width / 2 - nextLevel.width / 1.5f, game.height / 2 - nextLevel.height - 50);
+            nextLevel.SetScaleXY(0);
         }
     }
 }
