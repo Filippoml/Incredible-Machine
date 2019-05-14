@@ -4,3 +4,9 @@ C:\Users\Filippo\Desktop\box-box-box\VerletPhysics\Colliders\bin\Debug\Colliders
 C:\Users\Filippo\Desktop\box-box-box\VerletPhysics\Colliders\bin\Debug\Colliders.pdb
 C:\Users\Filippo\Desktop\box-box-box\VerletPhysics\Colliders\obj\x86\Debug\Colliders.exe
 C:\Users\Filippo\Desktop\box-box-box\VerletPhysics\Colliders\obj\x86\Debug\Colliders.pdb
+D:\Final Approach Project\Colliders\bin\Debug\Colliders.exe
+D:\Final Approach Project\Colliders\bin\Debug\Colliders.pdb
+D:\Final Approach Project\Colliders\obj\x86\Debug\VerletPhysics.csprojAssemblyReference.cache
+D:\Final Approach Project\Colliders\obj\x86\Debug\VerletPhysics.csproj.CoreCompileInputs.cache
+D:\Final Approach Project\Colliders\obj\x86\Debug\Colliders.exe
+D:\Final Approach Project\Colliders\obj\x86\Debug\Colliders.pdb
