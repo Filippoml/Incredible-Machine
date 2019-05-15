@@ -10,7 +10,7 @@ namespace Colliders
     public class HUD : EasyDraw
     {
         Sprite playStatus, pauseStatus;
-        Button deleteButton, playButton;
+        Button deleteButton, playButton, pauseButton;
         Rectangle objectPlacing;
         MyGame gameVar;
         public bool oneObjectPlacing;
@@ -19,9 +19,17 @@ namespace Colliders
             gameVar = ((MyGame)game);
             playButton = new Button(70, 800, "play.png");
             playButton.SetOrigin(playButton.width / 2, playButton.height / 2);
+            playButton.width = playButton.height = 70;
+
             AddChild(playButton);
 
-            deleteButton = new Button(140, 800, "delete.png");
+            pauseButton = new Button(70, 800, "pause.png");
+            pauseButton.SetOrigin(pauseButton.width / 2, pauseButton.height / 2);
+            pauseButton.width = pauseButton.height = 70;
+            pauseButton.visible = false;
+            AddChild(pauseButton);
+
+            deleteButton = new Button(160, 800, "delete.png");
             deleteButton.SetOrigin(deleteButton.width / 2, deleteButton.height / 2);
             deleteButton.visible = false;
             AddChild(deleteButton);
@@ -43,27 +51,38 @@ namespace Colliders
 
         void Update()
         {
-
-            if (playButton.DistanceTo(Input.mouseX, Input.mouseY) < playButton.width / 2 && Input.GetMouseButtonDown(0))
+            Console.WriteLine(gameVar.paused);
+            if (gameVar.paused)
             {
-                if (gameVar.level.numLevel == 1)
+                pauseButton.visible = false;
+                playButton.visible = true;
+
+                if (playButton.DistanceTo(Input.mouseX, Input.mouseY) < playButton.width / 2 && Input.GetMouseButtonDown(0))
                 {
-                    if(gameVar.level.tutorialPoint == 2)
+                    if (gameVar.level.numLevel == 1)
                     {
-                        gameVar.level.arrow.visible = false;
-                        gameVar.time = 1f / 50f;
-                        gameVar.paused = false;
+                        if (gameVar.level.tutorialPoint == 2)
+                        {
+                            gameVar.level.arrow.visible = false;
+                        }
                     }
-                }
-                else
-                {
-                    gameVar.time = 1f / 50f;
                     gameVar.paused = false;
                 }
             }
+            else
+            {
+                pauseButton.visible = true;
+                playButton.visible = false;
 
-            pauseStatus.visible = ((MyGame)game).paused;
-            playStatus.visible = !((MyGame)game).paused;
+                if (pauseButton.DistanceTo(Input.mouseX, Input.mouseY) < pauseButton.width / 2 && Input.GetMouseButtonDown(0))
+                {
+                    gameVar.level.ResetGame();
+       
+                }
+            }
+
+            pauseStatus.visible = gameVar.paused;
+            playStatus.visible = !gameVar.paused;
 
             oneObjectPlacing = false; //Are you placing objects
             objectPlacing = null;

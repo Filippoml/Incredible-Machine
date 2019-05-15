@@ -130,10 +130,12 @@ namespace Colliders
                 {
 
                 }
-               
-                if (gameVar.level.box.x  > this.x + this.width/2  && Mathf.Abs(gameVar.level.box.y - this.y) < this.height && !gameVar.paused)
+                if (gameVar.level.box != null)
                 {
-                    pistonAnimation = true;
+                    if (gameVar.level.box.x > this.x + this.width / 2 && Mathf.Abs(gameVar.level.box.y - this.y) < this.height && !gameVar.paused)
+                    {
+                        pistonAnimation = true;
+                    }
                 }
                 base.Update();
                 test.UpdateRectangleSize();

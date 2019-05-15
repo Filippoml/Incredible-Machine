@@ -16,15 +16,15 @@ class MyGame : Game {
     public bool paused = true;
     public Level level;
 
-    int numLevel = 3;
+    int numLevel = 1;
 
-    public MyGame() : base(1920,1080,false,true) {
+    public MyGame() : base(1920,1080,true,true) {
 
         //Sound backgroundSound = new Sound("Sounds/sound_incredible_machine.wav", true, false);
         //backgroundSound.Play();
 
         level = new Level();
-        level.LoadLevel(3);
+        level.LoadLevel(numLevel);
         AddChild(level);
 
         time = 1f / 50f;

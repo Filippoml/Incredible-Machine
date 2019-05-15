@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Colliders.Objects;
@@ -95,7 +96,7 @@ namespace Colliders.Extra
             mObjects.Add(floor3);
 
             robot = new Robot(1100, 250);
-            robot.SetScaleXY(0.8f);
+            robot.SetScaleXY(0.5f);
             AddChild(robot);
 
             Inventory inventory = new Inventory();
@@ -105,7 +106,7 @@ namespace Colliders.Extra
             AddChild(hud);
 
             arrow = new Sprite("arrow.png");
-            arrow.SetXY(300 - arrow.width/2, 600);
+            arrow.SetXY(560 - arrow.width/2, 600);
  
             arrowY = 600;
             AddChild(arrow);
@@ -121,48 +122,7 @@ namespace Colliders.Extra
 
             add();
         }
-
-        void LoadLevel2()
-        {
-            System.Drawing.Bitmap Bmp = new System.Drawing.Bitmap(game.width, game.height);
-            System.Drawing.Graphics gfx = System.Drawing.Graphics.FromImage(Bmp);
-            System.Drawing.SolidBrush brush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(135, 206, 235));
-            gfx.FillRectangle(brush, 0, 0, game.width, game.height);
-            Sprite _background = new Sprite(Bmp);
-            AddChild(_background);
-
-            Floor floor1 = new Floor(100, 200, 500, 15, "", 0.1f);
-            mObjects.Add(floor1);
-
-
-            Floor floor2 = new Floor(550, 500, 400, 15, "", 0);
-            mObjects.Add(floor2);
-
-            Floor floor3 = new Floor(850, 300, 200, 15, "", 0);
-            mObjects.Add(floor3);
-
-            robot = new Robot(1100, 250);
-            robot.SetScaleXY(0.8f);
-            AddChild(robot);
-
-            Inventory inventory = new Inventory();
-            AddChild(inventory);
-
-            hud = new HUD();
-            AddChild(hud);
-
-
-
-            foreach (Rectangle rectangle in mObjects)
-            {
-                if (!this.HasChild(rectangle))
-                {
-                    AddChild(rectangle);
-                }
-            }
-
-            add();
-        }
+        
 
 
         void LoadLevel3()
@@ -193,7 +153,7 @@ namespace Colliders.Extra
 
 
             robot = new Robot(1100, 250);
-            robot.SetScaleXY(0.8f);
+            robot.SetScaleXY(0.5f);
             AddChild(robot);
 
             Inventory inventory = new Inventory();
@@ -214,7 +174,7 @@ namespace Colliders.Extra
 
             add();
         }
-
+        Contact test = null;
         void LoadLevel4()
         {
             System.Drawing.Bitmap Bmp = new System.Drawing.Bitmap(game.width, game.height);
@@ -224,23 +184,18 @@ namespace Colliders.Extra
             Sprite _background = new Sprite(Bmp);
             AddChild(_background);
 
-            Floor floor1 = new Floor(40, 200, 150, 15, "", 0);
-            mObjects.Add(floor1);
-
-            Floor floor2 = new Floor(900, 50, 15, 375, "", 0);
-            mObjects.Add(floor2);
-
-            Floor floor3 = new Floor(900, 50, 15, 200, "", 0);
-            mObjects.Add(floor3);
+            floatingFloor1 = new Floor(900, 50, 15, 300, "", 0);
+            mObjects.Add(floatingFloor1);
 
 
-            floatingFloor2 = new Floor(550, 400, 15, 375, "", 0);
+            floatingFloor2 = new Floor(550, 400, 15, 300, "", 0);
             mObjects.Add(floatingFloor2);
 
 
 
+
             robot = new Robot(1100, 250);
-            robot.SetScaleXY(0.8f);
+            robot.SetScaleXY(0.5f);
             AddChild(robot);
 
             Inventory inventory = new Inventory();
@@ -266,7 +221,8 @@ namespace Colliders.Extra
 
         private void add()
         {
-            box = new Box(1, 100, 122, 60, 60, 0);
+            box = new Box(1, 100, 122, 44, 60, 0);
+            //box = new Box(1, 520, 122, 44, 60, 0);
 
             AddChild(box);
             mObjects.Add(box);
@@ -529,7 +485,7 @@ namespace Colliders.Extra
 
                     }
                 }
-                if (rigidBodyA.width == 50)
+                if (rigidBodyA is Box)
                 {
                     if (colliding == false)
                     {
@@ -539,7 +495,7 @@ namespace Colliders.Extra
 
                 }
                 bool boolean1 = false, boolean2 = false;
-                Contact test = null;
+
                 foreach (Contact contact in contacts2)
                 {
                     if (contact.A is Box && contact.B is ConveyorBeltObject || contact.B is Box && contact.A is ConveyorBeltObject)
@@ -551,14 +507,12 @@ namespace Colliders.Extra
                     {
                         boolean2 = true;
                     }
-
-
-
                 }
 
                 if(boolean1 && boolean2)
                 {
-                    contacts2.Remove(test);
+                    test.prova = true;
+                    //contacts2.Remove(test);
                     //box.vel.x = 0;
                 }
             }
@@ -615,7 +569,10 @@ namespace Colliders.Extra
             gameVar.paused = true;
             box.Destroy();
             mObjects.Remove(box);
+
             add();
+
+         
         }
 
         public void ShowNextLevelButton()
@@ -629,5 +586,6 @@ namespace Colliders.Extra
             nextLevel.SetXY(game.width / 2 - nextLevel.width / 1.5f, game.height / 2 - nextLevel.height - 50);
             nextLevel.SetScaleXY(0);
         }
+
     }
 }

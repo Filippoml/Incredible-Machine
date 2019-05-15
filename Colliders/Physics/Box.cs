@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using GXPEngine;
@@ -15,7 +16,7 @@ namespace Colliders
         Font _font;
         MyGame gameVar;
         float halfWidth, halfHeight;
-
+        int deathCounter;
         Sound backgroundSound;
         public Box(float mass, float x, float y, float wid, float hig, float angle):base(mass,x,y,wid,hig,angle, false)
         {
@@ -34,19 +35,31 @@ namespace Colliders
 
         public void Update()
         {
+            if (!(Mathf.Abs(this.vel.x) > 0 && Mathf.Abs(this.vel.y) > 0) && gameVar.paused == false)
+            {
+                deathCounter++;
+            }
+            if (deathCounter > 200)
+            {
+
+                gameVar.level.ResetGame();
+                deathCounter = 0;
+            }
             if (this.HitTest(gameVar.level.robot))
             {
 
-         
+
                 backgroundSound.Play();
                 this.Destroy();
                 gameVar.level.ShowNextLevelButton();
                 gameVar.nextLevel = true;
             }
             base.Update();
-            
-            
+
+
         }
 
     }
+
+
 }

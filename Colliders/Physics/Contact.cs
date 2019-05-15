@@ -14,7 +14,7 @@ namespace Colliders
         public Rectangle A, B;
         public Vec2 Pa, Pb, normal, ra, rb;
         public float Dist, Impulse, invDenom;
-
+        public bool prova; 
         public Contact(Rectangle A, Rectangle B, Vec2 pa, Vec2 pb, Vec2 n, float dist)
         {
            
@@ -86,19 +86,26 @@ namespace Colliders
                     this.B.vel.subtractMultipledVector(this.B.invMass, imp);
 
                 }
-                else if (A is Floor && B is Box)
+                else if (A is Floor && B is Box && A.height > A.width && B.vel.x > 0)
                 {
                     float test = -B.vel.x * 0.5f;
                     this.B.vel.subtractMultipledVector(this.B.invMass, imp);
                     this.B.vel.x = test;
-                    verticalFloor = true;
+                    if ((Mathf.Abs(B.vel.x) > 0 && Mathf.Abs(B.vel.y) > 0))
+                    {
+                        verticalFloor = true;
+                    }
+
                 }
-                else if (B is Floor && A is Box)
+                else if (B is Floor && A is Box && B.height > B.width && A.vel.x > 0)
                 {
                     float test = -A.vel.x * 0.5f;
                     this.A.vel.addMultipledVector(this.B.invMass, imp);
                     this.A.vel.x = test;
-                    verticalFloor = true;
+                    if ((Mathf.Abs(A.vel.x) > 0 && Mathf.Abs(A.vel.y) > 0))
+                    {
+                        verticalFloor = true;
+                    }
                 }
 
                 else if (A is FanObject && B is Box)
@@ -156,14 +163,28 @@ namespace Colliders
                     this.B.vel.addMultipledVector(this.B.invMass, imp);
                     
                 }
-                else if (B is Box && A is ConveyorBeltObject)
+                else if (B is Box && A is ConveyorBeltObject && B.y <= A.y)
                 {
-                    this.B.vel.x = 100;
+                    if (this.prova == false)
+                    {
+                        this.B.vel.x = 100;
+                    }
+                    else
+                    {
+                        this.B.vel.x = 0;
+                    }
                     this.B.vel.subtractMultipledVector(this.B.invMass, imp);
                 }
-                else if (A is Box && B is ConveyorBeltObject)
+                else if (A is Box && B is ConveyorBeltObject && A.y <= A.y)
                 {
-                    this.A.vel.x = 100;
+                    if (this.prova == false)
+                    {
+                        this.A.vel.x = 100;
+                    }
+                    else
+                    {
+                        this.A.vel.x = 0;
+                    }
                     this.A.vel.addMultipledVector(this.A.invMass, imp);
 
                 }
@@ -179,9 +200,8 @@ namespace Colliders
                 //{
                 //    A.Remove(); 
                 //}
-                if (!(A is SpringObject || B is SpringObject || A is FanObject || B is FanObject || A is SubPiston || B is SubPiston || verticalFloor))
+                if (!(A is SpringObject || B is SpringObject || A is FanObject || B is FanObject || A is SubPiston || B is SubPiston || verticalFloor || A is ConveyorBeltObject || B is ConveyorBeltObject))
                 {
-
                     float a = imp.dotProduct(this.ra) * this.A.invI;
                     float b = imp.dotProduct(this.rb) * this.B.invI;
 
@@ -189,6 +209,7 @@ namespace Colliders
                     this.B.angularVel -= b;
 
                 }
+
                 //Console.WriteLine(A+ "  " + B);
             }
         }

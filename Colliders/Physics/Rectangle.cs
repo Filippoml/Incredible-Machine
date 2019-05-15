@@ -33,11 +33,12 @@ namespace Colliders
             this.placing = placing;
             if(this is Box)
             {
-                sprite = new Sprite("bomb.png");
-                sprite.height = (int)hig;
-                sprite.width = (int)wid;
-                sprite.SetOrigin(hig * 2, wid * 2);
-                AddChild(sprite);
+                animationSprite = new AnimationSprite("bomb.png", 10, 2);
+                animationSprite.SetOrigin(animationSprite.width / 2, animationSprite.height / 2);
+                animationSprite.height = (int)hig;
+                animationSprite.width = (int)wid;
+
+                AddChild(animationSprite);
             }
             else if(this is SpringObject)
             {
@@ -51,13 +52,11 @@ namespace Colliders
             }
             else if(this is FanObject)
             {
-                sprite = new Sprite("fan.png");
-            
-                sprite.rotation = 180;
-                sprite.height = (int)hig;
-                sprite.width = (int)wid;
-                sprite.SetOrigin(hig * 2, wid * 2);
-                AddChild(sprite);
+                animationSprite = new AnimationSprite("fan.png",8, 4);
+                animationSprite.SetOrigin(animationSprite.width / 2, animationSprite.height / 2);
+                animationSprite.height = (int)hig;
+                animationSprite.width = (int)wid;
+                AddChild(animationSprite);
             }
             else if (this is PlankObject)
             {
@@ -194,9 +193,23 @@ namespace Colliders
 
             }
 
-            if (animationSprite != null && this is Box)
+            if (animationSprite != null && this is FanObject)
             {
-            
+                Console.WriteLine(animationSprite.currentFrame);
+                if (animationSprite.currentFrame >= 29)
+                {
+                    animationSprite.SetFrame(0);
+                }
+                else
+                {
+                    animationSprite.NextFrame();
+                }
+
+            }
+
+            if (animationSprite != null && this is Box && !gameVar.paused)
+            {
+                animationSprite.NextFrame();
             }
 
             base.Update();
