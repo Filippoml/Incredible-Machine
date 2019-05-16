@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Colliders.Objects;
 using GXPEngine;
 
 namespace Colliders
@@ -51,7 +52,7 @@ namespace Colliders
 
         void Update()
         {
-            Console.WriteLine(gameVar.paused);
+
             if (gameVar.paused)
             {
                 pauseButton.visible = false;
@@ -97,14 +98,14 @@ namespace Colliders
             {
                 if (Input.GetMouseButtonDown(1))
                 {
-
+  
                     destroyPlacingObject();
 
                 }
                 else if (deleteButton.DistanceTo(Input.mouseX, Input.mouseY) < deleteButton.width / 2 && Input.GetMouseButtonDown(0))
                 {
+                    
                     destroyPlacingObject();
-
                 }
             }
         }
@@ -117,7 +118,36 @@ namespace Colliders
                 {
                     PistonObject pistonObject = objectPlacing as PistonObject;
                     pistonObject.DestroyChildren();
+
+ 
+
+                    if (gameVar.level.numPistonObjects > 0)
+                    {
+                        gameVar.level.numPistonObjects--;
+                    }
                 }
+                else if(objectPlacing is SpringObject)
+                {
+                    if (gameVar.level.numSpringObjects > 0)
+                    {
+                        gameVar.level.numSpringObjects--;
+                    }
+                }
+                else if (objectPlacing is ConveyorBeltObject)
+                {
+                    if (gameVar.level.numBeltObjects > 0)
+                    {
+                        gameVar.level.numBeltObjects--;
+                    }
+                }
+                else if (objectPlacing is PlankObject)
+                {
+                    if (gameVar.level.numPlankObjects > 0)
+                    {
+                        gameVar.level.numPlankObjects--;
+                    }
+                }
+
                 gameVar.level.mObjects.Remove(objectPlacing);
                 objectPlacing.Destroy();
             }

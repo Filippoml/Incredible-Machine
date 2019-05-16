@@ -12,6 +12,7 @@ namespace Colliders
     {
         Sprite spriteSpring, spriteFan, spriteBelt, spritePiston, spritePlank;
         MyGame gameVar;
+        public float counter = 0;
         public Inventory()
         {
 
@@ -67,8 +68,172 @@ namespace Colliders
         {
             if(gameVar.level.numSpringObjects > 0)
             {
-                spriteSpring.SetScaleXY(0.5f);
+                if (counter == 0 && spriteSpring.scale > 0)
+                {
+                    counter = 100;
+                }
+
+                if (counter > 0 && spriteSpring.scale > 0)
+                {
+                    counter -= 4.3f;
+                    spriteSpring.SetScaleXY(counter / 100f);
+                }
+                else if(spriteSpring.scale != 0)
+                {
+                    spriteSpring.SetScaleXY(0);
+                    counter = 0;
+                }
             }
+            else
+            {
+                if(spriteSpring.scale < 1)
+                {
+                    if (counter == 0)
+                    {
+                        counter = 1;
+                    }
+
+                    if (counter > 0)
+                    {
+                        counter += 4.3f;
+        
+                        spriteSpring.SetScaleXY(counter / 100f);
+                    }
+                    else if (counter > 100)
+                    {
+                        spriteSpring.SetScaleXY(1);
+                        counter = 0;
+                    }
+                }
+              
+            }
+
+            if (gameVar.level.numBeltObjects > 0)
+            {
+                if (counter == 0 && spriteBelt.scale > 0)
+                {
+                    counter = 100;
+                }
+
+                if (counter > 0 && spriteBelt.scale > 0)
+                {
+                    counter -= 4.3f;
+                    spriteBelt.SetScaleXY(counter / 100f);
+                }
+                else if (spriteBelt.scale != 0)
+                {
+                    spriteBelt.SetScaleXY(0);
+                    counter = 0;
+                }
+            }
+            else
+            {
+                if (spriteBelt.scale < 1)
+                {
+                    if (counter == 0)
+                    {
+                        counter = 1;
+                    }
+
+                    if (counter > 0)
+                    {
+                        counter += 4.3f;
+
+                        spriteBelt.SetScaleXY(counter / 100f);
+                    }
+                    else if (counter > 100)
+                    {
+                        spriteBelt.SetScaleXY(1);
+                        counter = 0;
+                    }
+                }
+
+            }
+
+            if (gameVar.level.numPistonObjects > 0)
+            {
+                if (counter == 0 && spritePiston.scale > 0)
+                {
+                    counter = 100;
+                }
+
+                if (counter > 0 && spritePiston.scale > 0)
+                {
+                    counter -= 4.3f;
+                    spritePiston.SetScaleXY(counter / 100f);
+                }
+                else if (spritePiston.scale != 0)
+                {
+                    spritePiston.SetScaleXY(0);
+                    counter = 0;
+                }
+            }
+            else
+            {
+                if (spritePiston.scale < 1)
+                {
+                    if (counter == 0)
+                    {
+                        counter = 1;
+                    }
+
+                    if (counter > 0)
+                    {
+                        counter += 4.3f;
+
+                        spritePiston.SetScaleXY(counter / 100f);
+                    }
+                    else if (counter > 100)
+                    {
+                        spritePiston.SetScaleXY(1);
+                        counter = 0;
+                    }
+                }
+
+            }
+
+            if (gameVar.level.numPlankObjects > 0)
+            {
+                if (counter == 0 && spritePlank.scale > 0)
+                {
+                    counter = 100;
+                }
+
+                if (counter > 0 && spritePlank.scale > 0)
+                {
+                    counter -= 4.3f;
+                    spritePlank.SetScaleXY(counter / 100f);
+                }
+                else if (spritePlank.scale != 0)
+                {
+                    spritePlank.SetScaleXY(0);
+                    counter = 0;
+                }
+            }
+            else
+            {
+                if (spritePlank.scale < 1)
+                {
+                    if (counter == 0)
+                    {
+                        counter = 1;
+                    }
+
+                    if (counter > 0)
+                    {
+                        counter += 4.3f;
+
+                        spritePlank.SetScaleXY(counter / 100f);
+                    }
+                    else if (counter > 100)
+                    {
+                        spritePlank.SetScaleXY(1);
+                        counter = 0;
+                    }
+                }
+
+            }
+
             if (gameVar.level.numLevel == 1)
             {
                 switch (gameVar.level.tutorialPoint)
@@ -130,7 +295,7 @@ namespace Colliders
                     gameVar.level.hud.destroyPlacingObject();
                     FanObject springObject = new FanObject(0.3f, Input.mouseX, Input.mouseY, 50, 50, 0, true);
                     gameVar.level.AddChild(springObject);
-
+                    
                     gameVar.level.mObjects.Add(springObject);
                 }
 

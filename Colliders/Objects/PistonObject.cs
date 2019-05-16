@@ -62,7 +62,7 @@ namespace Colliders
                 test2.x += speed;
                 test2.pos.x += speed;
 
-
+               
             }
             if (Input.GetMouseButtonDown(1))
             {
@@ -100,9 +100,11 @@ namespace Colliders
             if (this.DistanceTo(Input.mouseX, Input.mouseY) < this.width / 2 && Input.GetMouseButtonDown(0) && !placing && !gameVar.level.hud.oneObjectPlacing)
             {
                 test.placing = test2.placing = placing = true;
+                gameVar.level.inventory.counter = 0;
             }
-            else if (Input.GetMouseButtonDown(0) && canBePlaced)
+            else if (Input.GetMouseButtonDown(0) && canBePlaced && placing)
             {
+                gameVar.level.numPistonObjects++;
                 test.placing = test2.placing = placing = false;
                 xCoord = x;
                 yCoord = y;

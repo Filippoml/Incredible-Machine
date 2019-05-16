@@ -18,6 +18,7 @@ namespace Colliders
 
         void Update()
         {
+            
             if(wait)
             {
                 wait = false;

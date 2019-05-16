@@ -21,10 +21,10 @@ namespace Colliders
         {
             if (this.DistanceTo(Input.mouseX, Input.mouseY) < this.width / 2 && Input.GetMouseButtonDown(0) && !placing && !gameVar.level.hud.oneObjectPlacing)
             {
-                gameVar.level.numSpringObjects--;
+                gameVar.level.inventory.counter = 0;
                 placing = true;
             }
-            else if (Input.GetMouseButtonDown(0) && canBePlaced)
+            else if (Input.GetMouseButtonDown(0) && canBePlaced && placing)
             {
                 if(gameVar.level.numLevel == 1)
                 {
@@ -39,6 +39,7 @@ namespace Colliders
                 }
                 else
                 {
+
                     gameVar.level.numSpringObjects++;
                     placing = false;
                     xCoord = x;

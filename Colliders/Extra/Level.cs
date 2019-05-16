@@ -14,6 +14,7 @@ namespace Colliders.Extra
 {
     public class Level : GameObject
     {
+
         public int numLevel;
         public Box box;
         public Robot robot;
@@ -22,6 +23,11 @@ namespace Colliders.Extra
         public int tutorialPoint;
 
         public int numSpringObjects;
+        public int numPlankObjects;
+        public int numPistonObjects;
+        public int numFanObjects;
+        public int numBeltObjects;
+
 
         private EasyDraw _easyDraw;
         private Font _font;
@@ -34,14 +40,26 @@ namespace Colliders.Extra
         Floor floatingFloor1, floatingFloor2;
         public List <Rectangle> mObjects;
         MyGame gameVar;
+        AnimationSprite explosion, die, intro;
+        public Inventory inventory;
+        Sound boom, won;
         public Level()
         {
             gameVar = ((MyGame)game);
 
             mObjects = new List<Rectangle>();
+            nextLevel = new AnimationSprite("youWon.png", 5, 6);
+            explosion = new AnimationSprite("explosion.png", 10, 3);
+            explosion.SetOrigin(explosion.width / 2, explosion.height / 2);
+            
+            boom = new Sound("Sounds/boom.wav", false, true);
+
+            won = new Sound("Sounds/sound_win.wav", false, true);
 
 
-           
+            die = new AnimationSprite("robotDie.png", 10, 2);
+            //die.SetOrigin(die.width / 2, die.height / 2);
+            die.SetScaleXY(0.5f);
         }
 
 
@@ -66,13 +84,20 @@ namespace Colliders.Extra
         }
 
         void LoadLevel0() {
-            _easyDraw = new EasyDraw(game.width, game.height);
-            AddChild(_easyDraw);
+            intro = new AnimationSprite("intro4.png", 8, 9);
+            intro.SetXY(game.width / 2 - intro.width/1.5f - 50, game.height / 2 - intro.height / 1.5f);
+            //intro.x = 1000;
+            //intro.y = 400;
+            AddChild(intro);
+            //_easyDraw = new EasyDraw(game.width, game.height);
+            //AddChild(_easyDraw);
 
-            PrivateFontCollection pfc = new PrivateFontCollection();
-            pfc.AddFontFile("font.ttf");
-            _font = new Font(new FontFamily(pfc.Families[0].Name), 25, FontStyle.Regular);
-            _easyDraw.graphics.DrawString("Waiting tick", _font, new SolidBrush(Color.White), new PointF((game.width / 2) - 300, game.height - 350));
+            //PrivateFontCollection pfc = new PrivateFontCollection();
+            //pfc.AddFontFile("font.ttf");
+            //_font = new Font(new FontFamily(pfc.Families[0].Name), 25, FontStyle.Regular);
+            //_easyDraw.graphics.DrawString("Waiting tick", _font, new SolidBrush(Color.White), new PointF((game.width / 2) - 300, game.height - 350));
+           
+
         }
 
         void LoadLevel1()
@@ -82,7 +107,9 @@ namespace Colliders.Extra
             System.Drawing.Graphics gfx = System.Drawing.Graphics.FromImage(Bmp);
             System.Drawing.SolidBrush brush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(135, 206, 235));
             gfx.FillRectangle(brush, 0, 0, game.width, game.height);
-            Sprite _background = new Sprite(Bmp);
+            Sprite _background = new Sprite("Levels/Level1.png");
+            _background.x = -10;
+            _background.SetScaleXY(0.82f);
             AddChild(_background);
 
             Floor floor1 = new Floor(100, 200, 300, 15, "", 0.1f);
@@ -99,7 +126,7 @@ namespace Colliders.Extra
             robot.SetScaleXY(0.5f);
             AddChild(robot);
 
-            Inventory inventory = new Inventory();
+            inventory = new Inventory();
             AddChild(inventory);
 
             hud = new HUD();
@@ -156,7 +183,7 @@ namespace Colliders.Extra
             robot.SetScaleXY(0.5f);
             AddChild(robot);
 
-            Inventory inventory = new Inventory();
+            inventory = new Inventory();
             AddChild(inventory);
 
             hud = new HUD();
@@ -198,7 +225,7 @@ namespace Colliders.Extra
             robot.SetScaleXY(0.5f);
             AddChild(robot);
 
-            Inventory inventory = new Inventory();
+            inventory = new Inventory();
             AddChild(inventory);
 
             hud = new HUD();
@@ -229,50 +256,138 @@ namespace Colliders.Extra
         }
      
         float counter = 0;
-        Sprite nextLevel;
-
+        AnimationSprite nextLevel;
+        bool wait, animate = false;
+        int wait2;
         public void Update()
         {
 
-            if (counter > 0)
+            if(intro != null)
             {
-                if(counter < 100)
+                if(wait2 == 3)
                 {
-                    nextLevel.SetScaleXY(counter / 100f);
-                }
-
-                if (counter > 400)
-                {
-
-                    gameVar.NextLevel();
-                    counter = 0;
-
-                }
-                counter += 2.5f;
-            }
-
-            if (numLevel == 0)
-            {
-                if (opacityPlus)
-                {
-                    _easyDraw.alpha += 0.01f;
-                    if (_easyDraw.alpha >= 1)
-                    {
-                        opacityPlus = !opacityPlus;
-                        _easyDraw.alpha = 1;
-                    }
-
+                    intro.NextFrame();
+                    wait2 = 0;
                 }
                 else
                 {
-                    _easyDraw.alpha -= 0.01f;
-                    if (_easyDraw.alpha <= 0)
-                    {
-                        opacityPlus = !opacityPlus;
-                        _easyDraw.alpha = 0;
-                    }
+                    wait2++;
+                }
+               
+            }
+
+            if(this.GetChildren().Contains(die))
+            {
+                if(explosion.currentFrame < 29)
+                if(wait)
+                {
+                    wait = false;
+                }
+                else
+                {
+                    wait = true;
+                    explosion.NextFrame();
+         
                 }
 
+                if (explosion.currentFrame > 28)
+                {
+                    explosion.Destroy();
+                    
+                }
+                if (explosion.currentFrame > 20 && die.currentFrame < 18)
+                {
+
+                    if (wait)
+                    {
+                        wait = false;
+                    }
+                    else
+                    {
+                        wait = true;
+                        die.NextFrame();
+
+                    }
+
+
+                }
+
+                if (die.currentFrame > 17 && nextLevel.scale == 1 && counter != 1)
+                {
+                    counter = 1;
+
+          
+                    nextLevel.SetOrigin(nextLevel.width / 2, nextLevel.height / 2);
+                    nextLevel.SetXY(game.width / 2 - nextLevel.width/2, game.height / 2 - nextLevel.height/2.5f);
+                    nextLevel.SetScaleXY(1);
+                    AddChild(nextLevel);
+                    won.Play();
+                    animate = true;
+              
+                }
+
+
+            }
+            //if (counter > 0)
+            //{
+            //    if(counter < 100)
+            //    {
+            //        nextLevel.SetScaleXY(counter / 100f);
+            //    }
+
+            //    if (counter > 400)
+            //    {
+
+
+            //        animate = true;
+            //        counter = 0;
+
+            //    }
+            //    counter += 2.5f;
+            //}
+
+            if (animate)
+            {
+                
+                if (wait)
+                {
+                    wait = false;
+                }
+                else
+                {
+                    wait = true;
+                    nextLevel.NextFrame();
+
+                }
+                if (nextLevel.currentFrame > 28)
+                {
+                    gameVar.NextLevel();
+                }
+            }
+            if (numLevel == 0)
+            {
+                if (_easyDraw != null)
+                {
+                    if (opacityPlus)
+                    {
+                        _easyDraw.alpha += 0.01f;
+                        if (_easyDraw.alpha >= 1)
+                        {
+                            opacityPlus = !opacityPlus;
+                            _easyDraw.alpha = 1;
+                        }
+
+                    }
+                    else
+                    {
+                        _easyDraw.alpha -= 0.01f;
+                        if (_easyDraw.alpha <= 0)
+                        {
+                            opacityPlus = !opacityPlus;
+                            _easyDraw.alpha = 0;
+                        }
+                    }
+                }
             }
             //if (Input.GetMouseButton(1))
             //{
@@ -574,17 +689,19 @@ namespace Colliders.Extra
 
          
         }
-
+        
         public void ShowNextLevelButton()
         {
-            counter = 1;
+            boom.Play();
+            explosion.x = robot.x;
+            explosion.y = robot.y;
+            AddChild(explosion);
 
+            robot.visible = false;
 
-            nextLevel = new Sprite(300, 100, Color.Red);
-            AddChild(nextLevel);
-            nextLevel.SetOrigin(nextLevel.width / 2, nextLevel.height / 2);
-            nextLevel.SetXY(game.width / 2 - nextLevel.width / 1.5f, game.height / 2 - nextLevel.height - 50);
-            nextLevel.SetScaleXY(0);
+            die.x = robot.x;
+            die.y = robot.y;
+            AddChild(die);
         }
 
     }

@@ -49,10 +49,9 @@ namespace Colliders
             {
 
 
-                backgroundSound.Play();
+                //backgroundSound.Play();
                 this.Destroy();
                 gameVar.level.ShowNextLevelButton();
-                gameVar.nextLevel = true;
             }
             base.Update();
 

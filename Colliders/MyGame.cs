@@ -11,12 +11,12 @@ using Colliders.Extra;
 class MyGame : Game {
 
 
-    public bool nextLevel;
+
     public float time = 1f / 30f;
     public bool paused = true;
     public Level level;
 
-    int numLevel = 1;
+    int numLevel = 0;
 
     public MyGame() : base(1920,1080,true,true) {
 
@@ -39,18 +39,19 @@ class MyGame : Game {
             GL.glfwTerminate();
             System.Environment.Exit(0);
         }
-
-        if(Input.GetKeyDown(Key.RIGHT) && nextLevel)
+        if (numLevel == 0 && Input.GetKey(Key.ZERO) )
         {
+    
+
             NextLevel();
+
         }
     }
 
     public void NextLevel()
     {
         paused = true;
-        nextLevel = false;
-        
+
         level.Destroy();
         level = new Level();
         AddChild(level);

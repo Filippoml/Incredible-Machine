@@ -24,10 +24,13 @@ namespace Colliders.Objects
         {
             if (rectRect(this.x, this.y, this.width, this.height) && Input.GetMouseButtonDown(0) && !placing && !gameVar.level.hud.oneObjectPlacing)
             {
+                gameVar.level.inventory.counter = 0;
+
                 placing = true;
             }
-            else if (Input.GetMouseButtonDown(0) && canBePlaced)
+            else if (Input.GetMouseButtonDown(0) && canBePlaced && placing)
             {
+                gameVar.level.numPlankObjects++;
                 placing = false;
                 xCoord = x;
                 yCoord = y;
