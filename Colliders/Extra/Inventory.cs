@@ -234,6 +234,48 @@ namespace Colliders
 
             }
 
+            if (gameVar.level.numFanObjects > 0)
+            {
+                if (counter == 0 && spriteFan.scale > 0)
+                {
+                    counter = 100;
+                }
+
+                if (counter > 0 && spriteFan.scale > 0)
+                {
+                    counter -= 4.3f;
+                    spriteFan.SetScaleXY(counter / 100f);
+                }
+                else if (spriteFan.scale != 0)
+                {
+                    spriteFan.SetScaleXY(0);
+                    counter = 0;
+                }
+            }
+            else
+            {
+                if (spriteFan.scale < 1)
+                {
+                    if (counter == 0)
+                    {
+                        counter = 1;
+                    }
+
+                    if (counter > 0)
+                    {
+                        counter += 4.3f;
+
+                        spriteFan.SetScaleXY(counter / 100f);
+                    }
+                    else if (counter > 100)
+                    {
+                        spriteFan.SetScaleXY(1);
+                        counter = 0;
+                    }
+                }
+
+            }
+
             if (gameVar.level.numLevel == 1)
             {
                 switch (gameVar.level.tutorialPoint)

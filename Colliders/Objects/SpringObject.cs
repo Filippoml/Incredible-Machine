@@ -19,7 +19,7 @@ namespace Colliders
 
         void Update()
         {
-            if (this.DistanceTo(Input.mouseX, Input.mouseY) < this.width / 2 && Input.GetMouseButtonDown(0) && !placing && !gameVar.level.hud.oneObjectPlacing)
+            if (this.DistanceTo(Input.mouseX, Input.mouseY) < this.width / 2 && Input.GetMouseButtonDown(0) && !placing && !gameVar.level.hud.oneObjectPlacing && gameVar.paused)
             {
                 gameVar.level.inventory.counter = 0;
                 placing = true;

@@ -154,7 +154,7 @@
     <Compile Include="MyGame.cs" />
     <Compile Include="Physics\Rectangle.cs" />
     <Compile Include="Physics\RigidBody.cs" />
-    <Compile Include="GXPEngine\Robot.cs" />
+    <Compile Include="Objects\Robot.cs" />
     <Compile Include="Objects\SpringObject.cs" />
     <Compile Include="Physics\Vec2.cs" />
     <Compile Include="Physics\Vertex.cs" />

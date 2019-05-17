@@ -80,6 +80,9 @@ namespace Colliders.Extra
                 case 3:
                     LoadLevel3();
                     break;
+                case 4:
+                    LoadLevel0();
+                    break;
             }
         }
 
@@ -122,8 +125,12 @@ namespace Colliders.Extra
             Floor floor3 = new Floor(850, 300, 200, 15, "", 0);
             mObjects.Add(floor3);
 
-            robot = new Robot(1100, 250);
+            robot = new Robot(1120, 250);
             robot.SetScaleXY(0.5f);
+            Sprite building = new Sprite("building.png");
+            building.y = 537;
+            building.x = 1020;
+            AddChild(building);
             AddChild(robot);
 
             inventory = new Inventory();
@@ -179,8 +186,12 @@ namespace Colliders.Extra
 
 
 
-            robot = new Robot(1100, 250);
+            robot = new Robot(1120, 250);
             robot.SetScaleXY(0.5f);
+            Sprite building = new Sprite("building.png");
+            building.y = 537;
+            building.x = 1020;
+            AddChild(building);
             AddChild(robot);
 
             inventory = new Inventory();
@@ -221,8 +232,12 @@ namespace Colliders.Extra
 
 
 
-            robot = new Robot(1100, 250);
+            robot = new Robot(1120, 250);
             robot.SetScaleXY(0.5f);
+            Sprite building = new Sprite("building.png");
+            building.y = 537;
+            building.x = 1020;
+            AddChild(building);
             AddChild(robot);
 
             inventory = new Inventory();

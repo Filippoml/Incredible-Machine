@@ -104,7 +104,42 @@ namespace Colliders
                 }
                 else if (deleteButton.DistanceTo(Input.mouseX, Input.mouseY) < deleteButton.width / 2 && Input.GetMouseButtonDown(0))
                 {
-                    
+
+                    if (objectPlacing is PistonObject)
+                    {
+                        PistonObject pistonObject = objectPlacing as PistonObject;
+                        pistonObject.DestroyChildren();
+
+
+
+                     
+                            gameVar.level.numPistonObjects--;
+                        
+                    }
+                    else if (objectPlacing is SpringObject)
+                    {
+                   
+                            gameVar.level.numSpringObjects--;
+                        
+                    }
+                    else if (objectPlacing is ConveyorBeltObject)
+                    {
+    
+                            gameVar.level.numBeltObjects--;
+                        
+                    }
+                    else if (objectPlacing is PlankObject)
+                    {
+
+                            gameVar.level.numPlankObjects--;
+                        
+                    }
+                    else if (objectPlacing is FanObject)
+                    {
+
+                            gameVar.level.numFanObjects--;
+                        
+                    }
                     destroyPlacingObject();
                 }
             }
@@ -145,6 +180,13 @@ namespace Colliders
                     if (gameVar.level.numPlankObjects > 0)
                     {
                         gameVar.level.numPlankObjects--;
+                    }
+                }
+                else if (objectPlacing is FanObject)
+                {
+                    if (gameVar.level.numFanObjects > 0)
+                    {
+                        gameVar.level.numFanObjects--;
                     }
                 }
 

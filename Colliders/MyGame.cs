@@ -16,9 +16,9 @@ class MyGame : Game {
     public bool paused = true;
     public Level level;
 
-    int numLevel = 0;
+    int numLevel = 2;
 
-    public MyGame() : base(1920,1080,true,true) {
+    public MyGame() : base(1920,1080,false,true) {
 
         //Sound backgroundSound = new Sound("Sounds/sound_incredible_machine.wav", true, false);
         //backgroundSound.Play();

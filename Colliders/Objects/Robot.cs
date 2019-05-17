@@ -10,14 +10,17 @@ namespace Colliders
     public class Robot : AnimationSprite
     {
         bool wait;
+        bool first;
         public Robot(float x, float y) : base ("robotIdle.png", 10, 3)
         {
             this.x = x;
             this.y = y;
+
         }
 
         void Update()
         {
+
             
             if(wait)
             {

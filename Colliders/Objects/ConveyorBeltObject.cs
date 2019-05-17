@@ -21,7 +21,7 @@ namespace Colliders.Objects
 
         void Update()
         {
-            if (rectRect(this.x, this.y, this.width, this.height) && Input.GetMouseButtonDown(0) && !placing && !gameVar.level.hud.oneObjectPlacing)
+            if (rectRect(this.x, this.y, this.width, this.height) && Input.GetMouseButtonDown(0) && !placing && !gameVar.level.hud.oneObjectPlacing && gameVar.paused)
 
             {
                 gameVar.level.inventory.counter = 0;
