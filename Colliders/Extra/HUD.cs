@@ -110,10 +110,8 @@ namespace Colliders
                         PistonObject pistonObject = objectPlacing as PistonObject;
                         pistonObject.DestroyChildren();
 
-
-
-                     
-                            gameVar.level.numPistonObjects--;
+                       
+                        gameVar.level.numPistonObjects--;
                         
                     }
                     else if (objectPlacing is SpringObject)

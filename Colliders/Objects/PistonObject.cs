@@ -11,7 +11,7 @@ namespace Colliders
     public class PistonObject : Rectangle
     {
         int maxXinit, maxXfin = 5;
-
+        Sound play;
         private bool pistonAnimation;
         float xCoord, yCoord;
         EasyDraw easyDraw;
@@ -21,6 +21,8 @@ namespace Colliders
         MyGame gameVar;
         public PistonObject(float mass, float x, float y, float wid, float hig, float angle, bool placing) : base(mass, x, y, wid, hig, angle, placing)
         {
+            play = new Sound("Sounds/sound_piston.wav", false, true);
+
             gameVar = ((MyGame)game);
 
             numWidth = (int) this.width;
@@ -64,38 +66,7 @@ namespace Colliders
 
                
             }
-            if (Input.GetMouseButtonDown(1))
-            {
-                pistonAnimation = true;
-
-
-                //test2.x++;
-                //test2.pos.x++;
-
-
-
-
-                //test.UpdateRectangleSize(1, test.x, test.y, test.width, test.height, 0);
-                //test2.UpdateRectangleSize(1, test2.x, test2.y, test2.width, test2.height, 0);
-                //numWidth++;
-                //width = numWidth;
-
-                //easyDraw = new EasyDraw(numWidth, (int)height);
-                //easyDraw.SetOrigin(numWidth / 2, easyDraw.height / 2);
-                ////easyDraw.x = (easyDraw.width / 2) - 24;
-                ////easyDraw.y = 0.1f;
-                //easyDraw.Fill(100, 100, 100);
-                //easyDraw.NoStroke();
-
-                //easyDraw.ShapeAlign(CenterMode.Min, CenterMode.Min);
-                //easyDraw.Rect(0, 0, numWidth, height);
-
-
-                //AddChild(easyDraw);
-                //base.UpdateRectangleSize(1, x , y, numWidth, height, 0);
-
-
-            }
+            
 
             if (this.DistanceTo(Input.mouseX, Input.mouseY) < this.width / 2 && Input.GetMouseButtonDown(0) && !placing && !gameVar.level.hud.oneObjectPlacing && gameVar.paused)
             {
@@ -136,6 +107,7 @@ namespace Colliders
                 {
                     if (gameVar.level.box.x > this.x + this.width / 2 && Mathf.Abs(gameVar.level.box.y - this.y) < this.height && !gameVar.paused)
                     {
+          
                         pistonAnimation = true;
                     }
                 }

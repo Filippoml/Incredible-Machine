@@ -165,7 +165,9 @@ namespace Colliders.Extra
             System.Drawing.Graphics gfx = System.Drawing.Graphics.FromImage(Bmp);
             System.Drawing.SolidBrush brush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(135, 206, 235));
             gfx.FillRectangle(brush, 0, 0, game.width, game.height);
-            Sprite _background = new Sprite(Bmp);
+            Sprite _background = new Sprite("Levels/Level3.png");
+            _background.x = -10;
+            _background.SetScaleXY(0.82f);
             AddChild(_background);
 
             Floor floor1 = new Floor(50, 400, 20, 300, "", 0);
@@ -219,7 +221,9 @@ namespace Colliders.Extra
             System.Drawing.Graphics gfx = System.Drawing.Graphics.FromImage(Bmp);
             System.Drawing.SolidBrush brush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(135, 206, 235));
             gfx.FillRectangle(brush, 0, 0, game.width, game.height);
-            Sprite _background = new Sprite(Bmp);
+            Sprite _background = new Sprite("Levels/Level2.png");
+            _background.x = -10;
+            _background.SetScaleXY(0.82f);
             AddChild(_background);
 
             floatingFloor1 = new Floor(900, 50, 15, 300, "", 0);
@@ -708,8 +712,8 @@ namespace Colliders.Extra
         public void ShowNextLevelButton()
         {
             boom.Play();
-            explosion.x = robot.x;
-            explosion.y = robot.y;
+            explosion.x = box.x;
+            explosion.y = box.y;
             AddChild(explosion);
 
             robot.visible = false;

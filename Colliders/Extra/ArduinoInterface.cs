@@ -24,7 +24,7 @@ class ArduinoInterface
         if (port == null)
             Initialize();
 
-        port.Write(send);
+        port.Write("test");
     }
 
     private static string AutodetectArduinoPort()
